@@ -28,7 +28,17 @@ else
 if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 {
     Write-Debug "HPsUtils.dll 업데이트 ..."
-    cp -Force -Recurse C:\hhdcommand\PsDev\HPsUtils\bin\Debug\* $PSHOME
+
+    Try
+    {
+        cp -Force -Recurse C:\hhdcommand\PsDev\HPsUtils\bin\Debug\* $PSHOME
+    }
+    Catch
+    {
+        Write-Warning "cp HPsUtils.dll 실패!!! ex : "
+        Write-Warning $_.Exception
+    }
+
     Add-Type -Path "$PSHOME\HPsUtils.dll"
 }
 else
@@ -42,6 +52,7 @@ else
 ##############################################################################################
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
 Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime.exe"
+Set-Alias open "explorer.exe"
 
 
 
