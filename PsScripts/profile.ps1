@@ -40,6 +40,7 @@ if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
     }
 
     Add-Type -Path "$PSHOME\HPsUtils.dll"
+    Import-Module "$PSHOME\HPsUtils.dll"
 }
 else
 {
@@ -52,7 +53,14 @@ else
 ##############################################################################################
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
 Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime.exe"
-Set-Alias open "explorer.exe"
+Set-Alias open "C:\Windows\SysWOW64\explorer.exe"
+Set-Alias vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"
+Set-Alias vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
+Set-Alias blend2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\blend.exe"
+Set-Alias blend2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\blend.exe"
+Set-Alias honeyview "C:\Program Files\Honeyview\Honeyview.exe"
+Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
+
 
 
 
@@ -130,6 +138,69 @@ function vspsdev()
 function rmforce($path)
 {
     rm -Recurse -Force $path
+}
+
+<#
+.SYNOPSIS
+    kill -Name *powershell*
+    파워쉘 관련 프로세스를 모두 죽여서 hpsutils.dll이 잘 배포되도록 한다.
+.EXAMPLE
+    killpowershell
+#>
+function killpowershell()
+{
+    kill -Name *powershell*
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+    connectiotdevice -servername "firstrp2" -password "password"
+#>
+function connectiotdevice($servername, $password)
+{
+    Write-Debug "start winrm service ..."
+    net start winrm
+
+    Write-Debug "add TrustedHosts ..."
+    Set-Item WSMan:\localhost\Client\TrustedHosts -Value $servername
+
+    $passwordEnc = ConvertTo-SecureString "password" -AsPlainText -Force
+    $cred = New-Object System.Management.Automation.PSCredential("$servername\administrator", $passwordEnc)
+
+    Write-Debug "enter pssession ..."
+    Enter-PSSession -ComputerName $servername -Credential $cred
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+    connectiotdevicefirstrp2
+#>
+function connectiotdevicefirstrp2()
+{
+    connectiotdevice -servername "firstrp2" -password "password"
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function mountiotdrivefirstrp2()
+{
+    Write-Host "
+`$servername = `"firstrp2`"
+`$password = `"password`"
+`$passwordEnc = ConvertTo-SecureString $password -AsPlainText -Force
+`$cred = New-Object System.Management.Automation.PSCredential(`"`$servername\administrator`", `$passwordEnc)
+New-PSDrive -Name iot -PSProvider FileSystem -Root \\`$servername\c$ -Credential `$cred
+    ";
 }
 
 
