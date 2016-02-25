@@ -197,7 +197,7 @@ function mountiotdrivefirstrp2()
     Write-Host "
 `$servername = `"firstrp2`"
 `$password = `"password`"
-`$passwordEnc = ConvertTo-SecureString $password -AsPlainText -Force
+`$passwordEnc = ConvertTo-SecureString `$password -AsPlainText -Force
 `$cred = New-Object System.Management.Automation.PSCredential(`"`$servername\administrator`", `$passwordEnc)
 New-PSDrive -Name iot -PSProvider FileSystem -Root \\`$servername\c$ -Credential `$cred
     ";
