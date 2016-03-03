@@ -8,7 +8,7 @@ Set-Item Env:\Path "
 
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
 $DebugPreference = "continue"
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
 
