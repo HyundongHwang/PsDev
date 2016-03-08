@@ -167,7 +167,7 @@ function connectiotdevice($servername, $password)
     Write-Debug "add TrustedHosts ..."
     Set-Item WSMan:\localhost\Client\TrustedHosts -Value $servername
 
-    $passwordEnc = ConvertTo-SecureString "password" -AsPlainText -Force
+    $passwordEnc = ConvertTo-SecureString $password -AsPlainText -Force
     $cred = New-Object System.Management.Automation.PSCredential("$servername\administrator", $passwordEnc)
 
     Write-Debug "enter pssession ..."
@@ -183,7 +183,19 @@ function connectiotdevice($servername, $password)
 #>
 function connectiotdevicefirstrp2()
 {
-    connectiotdevice -servername "firstrp2" -password "password"
+    connectiotdevice -servername "firstrp2" -password "p@ssw0rd"
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+    connectiotdevicesecondrp2
+#>
+function connectiotdevicesecondrp2()
+{
+    connectiotdevice -servername "secondrp2" -password "p@ssw0rd"
 }
 
 
