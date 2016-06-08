@@ -1,4 +1,7 @@
 Write-Host "안녕하세요" $env:USERNAME"님"
+
+
+
 $oldPath = Get-Content Env:\Path
 
 Set-Item Env:\Path "
@@ -6,28 +9,54 @@ Set-Item Env:\Path "
     c:\Program Files (x86)\Git\bin\;
 "
 
+Write-Host "cat Env Path"
+cat Env:\Path
+
+
+
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
-$DebugPreference = "continue"
+Write-Host "$OutputEncoding"
+$OutputEncoding
+
+
+
+
+# $DebugPreference = "continue"
+
+
+
+Write-Host "Set-ExecutionPolicy Bypass -Scope Process -Force"
 Set-ExecutionPolicy Bypass -Scope Process -Force
+
+
+
+
+Write-Host "Import-AzurePublishSettingsFile"
+Import-AzurePublishSettingsFile ~\*.publishsettings
+
+
 
 
 
 ##############################################################################################
 # update custom profile.ps1, dlls ... 
 ##############################################################################################
+
+Write-Host "update custom profile.ps1, dlls ... "
+
 if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
 {
-    Write-Debug "profile.ps1 업데이트 ..."
+    Write-Host "profile.ps1 업데이트 ..."
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 $PSHOME
 }
 else
 {
-    Write-Debug "profile.ps1 업데이트 스킵 ..."
+    Write-Host "profile.ps1 업데이트 스킵 ..."
 }
 
 if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 {
-    Write-Debug "HPsUtils.dll 업데이트 ..."
+    Write-Host "HPsUtils.dll 업데이트 ..."
 
     Try
     {
@@ -44,13 +73,18 @@ if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 }
 else
 {
-    Write-Debug "HPsUtils.dll 업데이트 스킵 ..."
+    Write-Host "HPsUtils.dll 업데이트 스킵 ..."
 }
+
+
 
 
 ##############################################################################################
 # alias ... 
 ##############################################################################################
+
+Write-Host "alias ... "
+
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
 Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime.exe"
 Set-Alias open "C:\Windows\SysWOW64\explorer.exe"
@@ -67,14 +101,14 @@ Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
 ##############################################################################################
 # simple functions ... 
 ##############################################################################################
+function adblogcatmono
+{
+    adb logcat -s mono-stdout:v
+}
+
 function lsforce
 {
     Get-ChildItem -Force
-}
-
-function cdpsscripts
-{
-    cd c:\hhdcommand\PsScripts\
 }
 
 function cdtemp
@@ -89,12 +123,12 @@ function cdproject
 
 function sublimeprofileps1
 {
-    sublime c:\hhdcommand\PsScripts\profile.ps1
+    sublime c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 
 function catprofileps1
 {
-    cat c:\hhdcommand\PsScripts\profile.ps1
+    cat c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 
 function cd2($keyword)
@@ -125,6 +159,43 @@ function rmforce($path)
 function vspsdev()
 {
     Start-Process devenv.exe -Verb runAs -ArgumentList c:\hhdcommand\PsDev\PsDev.sln
+}
+
+function azurecurrent()
+{
+    Write-Host "Get-AzureSubscription"
+    pause
+    Get-AzureSubscription
+
+
+
+    Write-Host "Get-AzureWebsite"
+    pause
+    Get-AzureWebsite
+
+
+
+    Write-Host "Get-AzureSqlDatabaseServer"
+    pause
+    Get-AzureSqlDatabaseServer
+
+    Write-Host "Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase"
+    pause
+    Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase
+
+
+
+    Write-Host "Get-AzureStorageAccount"
+    pause
+    Get-AzureStorageAccount
+
+    Write-Host "Get-AzureStorageAccount | Get-AzureStorageContainer"
+    pause
+    Get-AzureStorageAccount | Get-AzureStorageContainer
+
+    Write-Host "Get-AzureStorageAccount | Get-AzureStorageContainer | Get-AzureStorageBlob"
+    pause
+    Get-AzureStorageAccount | Get-AzureStorageContainer | Get-AzureStorageBlob
 }
 
 <#
@@ -161,16 +232,16 @@ function killpowershell()
 #>
 function connectiotdevice($servername, $password)
 {
-    Write-Debug "start winrm service ..."
+    Write-Host "start winrm service ..."
     net start winrm
 
-    Write-Debug "add TrustedHosts ..."
+    Write-Host "add TrustedHosts ..."
     Set-Item WSMan:\localhost\Client\TrustedHosts -Value $servername
 
     $passwordEnc = ConvertTo-SecureString $password -AsPlainText -Force
     $cred = New-Object System.Management.Automation.PSCredential("$servername\administrator", $passwordEnc)
 
-    Write-Debug "enter pssession ..."
+    Write-Host "enter pssession ..."
     Enter-PSSession -ComputerName $servername -Credential $cred
 }
 
@@ -314,18 +385,18 @@ function mycomplexfunc
         $obj | Add-Member -MemberType NoteProperty -Name ProcessName -Value $process.Name
         $obj | Add-Member -MemberType NoteProperty -Name ProcessId -Value $process.Id
 
-        Write-Debug ("strArray.Length : " + $strArray.Length)
+        Write-Host ("strArray.Length : " + $strArray.Length)
 
         if ($strArray.Length -gt 0) 
         {
             $rand = New-Object -TypeName System.Random
             $idx = $rand.Next($strArray.Length)
 
-            Write-Debug ("idx : " + $idx)
+            Write-Host ("idx : " + $idx)
 
             $randValue = $strArray[$idx]
 
-            Write-Debug ("randValue : " + $randValue)
+            Write-Host ("randValue : " + $randValue)
 
             $obj | Add-Member -MemberType NoteProperty -Name randValue -Value $randValue
         }
