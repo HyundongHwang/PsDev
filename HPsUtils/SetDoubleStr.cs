@@ -14,7 +14,7 @@ namespace HPsUtils
     }
 
     [Cmdlet(VerbsCommon.Set, "DoubleStr"), 
-        Alias("double")]
+        Alias("hhd-double")]
     public class SetDoubleStr : PSCmdlet
     {
         [Parameter(

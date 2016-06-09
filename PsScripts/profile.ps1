@@ -1,6 +1,12 @@
-Write-Host "안녕하세요" $env:USERNAME"님"
+##############################################################################################
+# initial configuration ... 
+##############################################################################################
+
+Write-Host "hello $env:USERNAME, welcome ..."
 
 
+
+Write-Host "configure path ..."
 
 $oldPath = Get-Content Env:\Path
 
@@ -9,11 +15,11 @@ Set-Item Env:\Path "
     c:\Program Files (x86)\Git\bin\;
 "
 
-Write-Host "cat Env Path"
 cat Env:\Path
 
 
 
+Write-Host "configure output encoding as utf8 ..."
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
 Write-Host "$OutputEncoding"
 $OutputEncoding
@@ -25,38 +31,26 @@ $OutputEncoding
 
 
 
-Write-Host "Set-ExecutionPolicy Bypass -Scope Process -Force"
+Write-Host "configure execution policy ..."
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
-
-
-Write-Host "Import-AzurePublishSettingsFile"
-Import-AzurePublishSettingsFile ~\*.publishsettings
-
-
-
-
-
-##############################################################################################
-# update custom profile.ps1, dlls ... 
-##############################################################################################
 
 Write-Host "update custom profile.ps1, dlls ... "
 
 if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
 {
-    Write-Host "profile.ps1 업데이트 ..."
+    Write-Host "update profile.ps1 ..."
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 $PSHOME
 }
 else
 {
-    Write-Host "profile.ps1 업데이트 스킵 ..."
+    Write-Host "skip profile.ps1 ..."
 }
 
 if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 {
-    Write-Host "HPsUtils.dll 업데이트 ..."
+    Write-Host "update HPsUtils.dll ..."
 
     Try
     {
@@ -64,8 +58,8 @@ if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
     }
     Catch
     {
-        Write-Warning "cp HPsUtils.dll 실패!!! ex : "
-        Write-Warning $_.Exception
+        Write-Host "failed to copy HPsUtils.dll !!! ex : "
+        Write-Host $_.Exception
     }
 
     Add-Type -Path "$PSHOME\HPsUtils.dll"
@@ -73,8 +67,28 @@ if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 }
 else
 {
-    Write-Host "HPsUtils.dll 업데이트 스킵 ..."
+    Write-Host "skip HPsUtils.dll ..."
 }
+
+
+
+Write-Host "azure login ..."
+Import-AzurePublishSettingsFile ~\*.publishsettings
+
+
+
+if($pwd -like "*WINDOWS\System32*")
+{
+    if(!(Test-Path \temp))
+    {
+        mkdir \temp
+    }
+
+    Write-Host "change directory to temp ..."
+    cd \temp
+}
+
+
 
 
 
@@ -98,127 +112,204 @@ Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
 
 
 
+
+
 ##############################################################################################
-# simple functions ... 
+# functions ... 
 ##############################################################################################
-function adblogcatmono
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-ls
 {
-    adb logcat -s mono-stdout:v
+    ls -Force
 }
 
-function lsforce
-{
-    Get-ChildItem -Force
-}
 
-function cdtemp
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-cd-temp
 {
     cd c:\temp
 }
 
-function cdproject
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-cd-project
 {
     cd c:\project
 }
 
-function sublimeprofileps1
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-sublime-profile-ps1
 {
     sublime c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 
-function catprofileps1
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-cat-profile-ps1
 {
     cat c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 
-function cd2($keyword)
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+    PS C:\> hhd-cd win
+    PS C:\Windows>
+#>
+function hhd-cd($keyword)
 {
     cd *$keyword*
 }
 
-function ps2()
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+    PS C:\> hhd-ps
+
+       Id Name                       WS(M) Path
+       -- ----                       ----- ----
+        4 System                       595
+    18524 devenv                       426 C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe
+     8188 chrome                       171 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+    17652 chrome                       152 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+     8600 chrome                       142 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+     3684 chrome                       140 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+     3696 MsMpEng                      130
+    11032 PowerShellToolsProcessHost   105 C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qablerhr.v4z\PowerShellT
+                                           oolsProcessHost.exe
+     3016 powershell                    93 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+     6316 explorer                      91 C:\WINDOWS\Explorer.EXE
+#>
+function hhd-ps()
 {
     ps | sort WS -Descending | select Id, Name, @{l="WS(M)"; e={[int]($_.WS / 1024 / 1024)}}, Path -First 10 | ft -AutoSize -Wrap
 }
 
-function gitgraph
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-git-graph
 {
     git log --pretty=format:"%h %s - %an %ar" --graph
 }
 
-function catlog($path)
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-cat-log($path)
 {
     cat -Wait $path
 }
 
-function rmforce($path)
-{
-    rm -Recurse -Force $path
-}
 
-function vspsdev()
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-vs-psdev()
 {
     Start-Process devenv.exe -Verb runAs -ArgumentList c:\hhdcommand\PsDev\PsDev.sln
 }
 
-function azurecurrent()
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-adb-logcat-mono
 {
-    Write-Host "Get-AzureSubscription"
+    adb logcat -s mono-stdout:v
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-azure-current()
+{
+    Write-Host "azure subscription check ..."
     pause
     Get-AzureSubscription
 
 
 
-    Write-Host "Get-AzureWebsite"
+    Write-Host "azure website check ..."
     pause
     Get-AzureWebsite
 
 
 
-    Write-Host "Get-AzureSqlDatabaseServer"
+    Write-Host "azure sql database check ..."
     pause
-    Get-AzureSqlDatabaseServer
-
-    Write-Host "Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase"
-    pause
-    Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase
+    Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhd-azure-sql-database-detail
 
 
 
-    Write-Host "Get-AzureStorageAccount"
+    Write-Host "azure storage account check ..."
     pause
     Get-AzureStorageAccount
 
-    Write-Host "Get-AzureStorageAccount | Get-AzureStorageContainer"
-    pause
-    Get-AzureStorageAccount | Get-AzureStorageContainer
-
-    Write-Host "Get-AzureStorageAccount | Get-AzureStorageContainer | Get-AzureStorageBlob"
+    Write-Host "azure storage blob check ..."
     pause
     Get-AzureStorageAccount | Get-AzureStorageContainer | Get-AzureStorageBlob
 }
 
+
+
 <#
 .SYNOPSIS
-    rm -Recurse -Force $path
 .PARAMETER path
-    파일, 디렉토리 경로
 .EXAMPLE
-    rmforce aaa
 #>
-function rmforce($path)
+function hhd-rm($path)
 {
     rm -Recurse -Force $path
 }
 
+
+
 <#
 .SYNOPSIS
-    kill -Name *powershell*
-    파워쉘 관련 프로세스를 모두 죽여서 hpsutils.dll이 잘 배포되도록 한다.
 .EXAMPLE
-    killpowershell
 #>
-function killpowershell()
+function hhd-kill-about-powershell()
 {
     kill -Name *powershell*
 }
@@ -228,9 +319,9 @@ function killpowershell()
 <#
 .SYNOPSIS
 .EXAMPLE
-    connectiotdevice -servername "firstrp2" -password "password"
+    hhd-iot-connect -servername "minwinpc" -password "p@ssw0rd"
 #>
-function connectiotdevice($servername, $password)
+function hhd-iot-connect($servername, $password)
 {
     Write-Host "start winrm service ..."
     net start winrm
@@ -250,24 +341,12 @@ function connectiotdevice($servername, $password)
 <#
 .SYNOPSIS
 .EXAMPLE
-    connectiotdevicefirstrp2
 #>
-function connectiotdevicefirstrp2()
+function hhd-iot-connect-minwinpc()
 {
-    connectiotdevice -servername "firstrp2" -password "p@ssw0rd"
+    hhd-iot-connect -servername "minwinpc" -password "p@ssw0rd"
 }
 
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-    connectiotdevicesecondrp2
-#>
-function connectiotdevicesecondrp2()
-{
-    connectiotdevice -servername "secondrp2" -password "p@ssw0rd"
-}
 
 
 
@@ -275,7 +354,18 @@ function connectiotdevicesecondrp2()
 .SYNOPSIS
 .EXAMPLE
 #>
-function mountiotdrivefirstrp2()
+function hhd-connect-iot-firstrp3()
+{
+    hhd-iot-connect -servername "firstrp3" -password "p@ssw0rd"
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhd-mount-iot-drive-firstrp3()
 {
     Write-Host "
 `$servername = `"firstrp2`"
@@ -287,10 +377,6 @@ New-PSDrive -Name iot -PSProvider FileSystem -Root \\`$servername\c$ -Credential
 }
 
 
-
-##############################################################################################
-# complex functions ... 
-##############################################################################################
 
 <#
 .SYNOPSIS
@@ -404,3 +490,65 @@ function mycomplexfunc
         Write-Output $obj
     }
 }
+
+
+
+<#
+.SYNOPSIS
+    azure sql server database의 디테일한 정보 리턴
+.PARAMETER dbObj
+    azure sql server database 객체 
+.EXAMPLE
+    PS C:\temp> Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhd-azure-sql-database-detail
+#>
+function hhd-azure-sql-database-detail
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
+        $dbObj
+    )
+    begin
+    {
+    }
+    process
+    {
+        $obj = New-Object -typename PSObject
+        $dbType = [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
+        $methodList = $dbType.GetMethods() | where { $_.Name -like "get_*" }
+
+        foreach ($method in $methodList) 
+        {
+            $name = $method.Name.TrimStart("get_")
+            $value = $method.Invoke($dbObj, $null)
+
+            if ([string]::IsNullOrWhiteSpace($value))
+            {
+                continue
+            }
+
+
+
+            $obj | Add-Member -MemberType NoteProperty -Name $name -Value $value
+        }
+
+        #pyx1rbr0s0.database.windows.net
+        #Server=tcp:pyx1rbr0s0.database.windows.net,1433;Data Source=pyx1rbr0s0.database.windows.net;Initial Catalog=hhdyidbot;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+        $serverName = $dbObj.Context.ServerName
+        $dbName = $dbObj.Name
+        $obj | Add-Member -MemberType NoteProperty -Name ServerAddress -Value "$serverName.database.windows.net"
+        $obj | Add-Member -MemberType NoteProperty -Name ConnectionString -Value "Server=tcp:$serverName.database.windows.net,1433;Data Source=$serverName.database.windows.net;Initial Catalog=$dbName;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        Write-Output $obj
+    }
+}
+
+
+
+
+
+
+Write-Host "list hhd commands functions ..."
+gcm hhd-* | ft
