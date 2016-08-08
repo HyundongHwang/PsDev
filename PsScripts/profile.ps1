@@ -21,9 +21,6 @@ cat Env:\Path
 
 Write-Host "configure output encoding as utf8 ..."
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
-Write-Host "$OutputEncoding"
-$OutputEncoding
-
 
 
 
@@ -36,8 +33,6 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
 
-Write-Host "update custom profile.ps1, dlls ... "
-
 if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
 {
     Write-Host "update profile.ps1 ..."
@@ -47,6 +42,8 @@ else
 {
     Write-Host "skip profile.ps1 ..."
 }
+
+
 
 if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
 {
@@ -69,11 +66,6 @@ else
 {
     Write-Host "skip HPsUtils.dll ..."
 }
-
-
-
-Write-Host "azure login ..."
-Import-AzurePublishSettingsFile ~\*.publishsettings
 
 
 
@@ -124,18 +116,7 @@ Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-ls
-{
-    ls -Force
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhd-cd-temp
+function hhdcdtemp
 {
     cd c:\temp
 }
@@ -146,7 +127,7 @@ function hhd-cd-temp
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-cd-project
+function hhdcdproject
 {
     cd c:\project
 }
@@ -157,7 +138,7 @@ function hhd-cd-project
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-sublime-profile-ps1
+function hhdsublimeprofileps1
 {
     sublime c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
@@ -168,7 +149,7 @@ function hhd-sublime-profile-ps1
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-cat-profile-ps1
+function hhdcatprofileps1
 {
     cat c:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
@@ -178,10 +159,10 @@ function hhd-cat-profile-ps1
 <#
 .SYNOPSIS
 .EXAMPLE
-    PS C:\> hhd-cd win
+    PS C:\> hhdcd win
     PS C:\Windows>
 #>
-function hhd-cd($keyword)
+function hhdcd($keyword)
 {
     cd *$keyword*
 }
@@ -191,7 +172,7 @@ function hhd-cd($keyword)
 <#
 .SYNOPSIS
 .EXAMPLE
-    PS C:\> hhd-ps
+    PS C:\> hhdps
 
        Id Name                       WS(M) Path
        -- ----                       ----- ----
@@ -207,7 +188,7 @@ function hhd-cd($keyword)
      3016 powershell                    93 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
      6316 explorer                      91 C:\WINDOWS\Explorer.EXE
 #>
-function hhd-ps()
+function hhdps()
 {
     ps | sort WS -Descending | select Id, Name, @{l="WS(M)"; e={[int]($_.WS / 1024 / 1024)}}, Path -First 10 | ft -AutoSize -Wrap
 }
@@ -218,7 +199,7 @@ function hhd-ps()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-git-graph
+function hhdgitgraph
 {
     git log --pretty=format:"%h %s - %an %ar" --graph
 }
@@ -229,7 +210,7 @@ function hhd-git-graph
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-cat-log($path)
+function hhdcatlog($path)
 {
     cat -Wait $path
 }
@@ -240,7 +221,7 @@ function hhd-cat-log($path)
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-vs-psdev()
+function hhdvspsdev()
 {
     Start-Process devenv.exe -Verb runAs -ArgumentList c:\hhdcommand\PsDev\PsDev.sln
 }
@@ -251,7 +232,7 @@ function hhd-vs-psdev()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-adb-logcat-mono
+function hhdadblogcatmono
 {
     adb logcat -s mono-stdout:v
 }
@@ -262,7 +243,19 @@ function hhd-adb-logcat-mono
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-azure-current()
+function hhdazureloginauto()
+{
+    Write-Host "azure login ..."
+    Import-AzurePublishSettingsFile ~\*.publishsettings    
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdazurecurrent()
 {
     Write-Host "azure subscription check ..."
     pause
@@ -273,12 +266,13 @@ function hhd-azure-current()
     Write-Host "azure website check ..."
     pause
     Get-AzureWebsite
+    Get-AzureWebHostingPlan
 
 
 
     Write-Host "azure sql database check ..."
     pause
-    Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhd-azure-sql-database-detail
+    Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhdazuresqldatabasedetail
 
 
 
@@ -295,10 +289,55 @@ function hhd-azure-current()
 
 <#
 .SYNOPSIS
+.EXAMPLE
+#>
+function hhdazurestartallwebsite()
+{
+    Write-Host "azure website check ..."
+    Get-AzureWebSite
+
+    Write-Host "start all websites ..."
+    Get-AzureWebSite | Start-AzureWebSite
+
+    Write-Host "azure website check ..."
+    Get-AzureWebSite
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdazurestopallwebsite()
+{
+    Write-Host "azure website check ..."
+    Get-AzureWebSite
+
+    Write-Host "stop all websites ..."
+    Get-AzureWebSite | Stop-AzureWebSite
+
+    Write-Host "azure website check ..."
+    Get-AzureWebSite
+}
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdazuregetwebsiteloghhdyidbot()
+{
+    Get-AzureWebsiteLog -Name hhdyidbot -Tail
+}
+
+
+<#
+.SYNOPSIS
 .PARAMETER path
 .EXAMPLE
 #>
-function hhd-rm($path)
+function hhdrm($path)
 {
     rm -Recurse -Force $path
 }
@@ -309,9 +348,9 @@ function hhd-rm($path)
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-kill-about-powershell()
+function hhdkillallpowershellwithoutme()
 {
-    kill -Name *powershell*
+    ps -Name *powershell* | where { $_.Id -ne $PID } | kill
 }
 
 
@@ -319,9 +358,9 @@ function hhd-kill-about-powershell()
 <#
 .SYNOPSIS
 .EXAMPLE
-    hhd-iot-connect -servername "minwinpc" -password "p@ssw0rd"
+    hhdiotconnect -servername "minwinpc" -password "p@ssw0rd"
 #>
-function hhd-iot-connect($servername, $password)
+function hhdiotconnect($servername, $password)
 {
     Write-Host "start winrm service ..."
     net start winrm
@@ -342,9 +381,9 @@ function hhd-iot-connect($servername, $password)
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-iot-connect-minwinpc()
+function hhdiotconnectminwinpc()
 {
-    hhd-iot-connect -servername "minwinpc" -password "p@ssw0rd"
+    hhdiotconnect -servername "minwinpc" -password "p@ssw0rd"
 }
 
 
@@ -354,9 +393,9 @@ function hhd-iot-connect-minwinpc()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-connect-iot-firstrp3()
+function hhdiotconnectfirstrp3()
 {
-    hhd-iot-connect -servername "firstrp3" -password "p@ssw0rd"
+    hhdiotconnect -servername "firstrp3" -password "p@ssw0rd"
 }
 
 
@@ -365,7 +404,7 @@ function hhd-connect-iot-firstrp3()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhd-mount-iot-drive-firstrp3()
+function hhdiotmountdrivefirstrp3()
 {
     Write-Host "
 `$servername = `"firstrp2`"
@@ -499,9 +538,9 @@ function mycomplexfunc
 .PARAMETER dbObj
     azure sql server database °´Ã¼ 
 .EXAMPLE
-    PS C:\temp> Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhd-azure-sql-database-detail
+    PS C:\temp> Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhdazuresqldatabasedetail
 #>
-function hhd-azure-sql-database-detail
+function hhdazuresqldatabasedetail
 {
     [CmdletBinding()]
     param
@@ -547,8 +586,33 @@ function hhd-azure-sql-database-detail
 
 
 
+<#
+.SYNOPSIS
+    ½Ã³ñ½Ã½º ...
+.PARAMETER var
+    var ...
+.EXAMPLE
+    PS> ex ...
+#>
+function hhdnetworkgetpubip
+{
+    $myPubIp = (Invoke-WebRequest -Uri http://icanhazip.com).Content
+    return $myPubIp   
+}
 
 
 
-Write-Host "list hhd commands functions ..."
-gcm hhd-* | ft
+
+<#
+.SYNOPSIS
+    ½Ã³ñ½Ã½º ...
+.PARAMETER var
+    var ...
+.EXAMPLE
+    PS> ex ...
+#>
+function hhdls($dir, $path)
+{
+    $result = ls $dir -Recurse -Force | where FullName -Like $path
+    Write-Host $result.FullName
+}

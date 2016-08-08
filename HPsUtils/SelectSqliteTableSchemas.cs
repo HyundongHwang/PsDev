@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace HPsUtils
 {
     [Cmdlet(VerbsCommon.Select, "SqliteTableSchemas"),
-        Alias("hhd-sqlite-schema")]
+        Alias("hhdsqliteschema")]
     public class SelectSqliteTableSchemas : PSCmdlet
     {
         [Parameter(

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace HPsUtils
 {
     [Cmdlet(VerbsCommon.Set, "SqliteQuery"), 
-        Alias("hhd-sqlite-query")]
+        Alias("hhdsqlitequery")]
     public class ExecuteSqliteQuery : PSCmdlet
     {
         [Parameter(

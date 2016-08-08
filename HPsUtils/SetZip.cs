@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace HPsUtils
 {
     [Cmdlet(VerbsCommon.Set, "Zip"), 
-        Alias("hhd-zip")]
+        Alias("hhdzip")]
     public class SetZip : PSCmdlet
     {
         [Parameter(
