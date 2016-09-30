@@ -92,7 +92,7 @@ if($pwd -like "*WINDOWS\System32*")
 Write-Host "alias ... "
 
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
-Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime.exe"
+Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
 Set-Alias open "C:\Windows\SysWOW64\explorer.exe"
 Set-Alias vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"
 Set-Alias vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
