@@ -1,8 +1,4 @@
-##############################################################################################
-# initial configuration ... 
-##############################################################################################
-
-Write-Host "hello $env:USERNAME, welcome ..."
+Write-Host "hello ${env:USERNAME}, welcome ..."
 
 
 
@@ -12,7 +8,7 @@ $oldPath = Get-Content Env:\Path
 
 Set-Item Env:\Path "
     $oldPath;
-    c:\Program Files (x86)\Git\bin\;
+    C:\hhdcommand\PortableGit\bin;
 "
 
 cat Env:\Path
@@ -24,6 +20,7 @@ $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
 
 
 
+# Write-Host "configure DebugPreference ..."
 # $DebugPreference = "continue"
 
 
@@ -33,42 +30,49 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
 
-if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
+<#
+.SYNOPSIS
+.PARAMETER modulename
+.EXAMPLE
+#>
+function hhdmoduleinstallimport($modulename)
 {
-    Write-Host "update profile.ps1 ..."
-    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 $PSHOME
-}
-else
-{
-    Write-Host "skip profile.ps1 ..."
-}
-
-
-
-if (Test-Path "C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll")
-{
-    Write-Host "update HPsUtils.dll ..."
-
-    Try
+    if((Get-InstalledModule -name $modulename).count -eq 0)
     {
-        cp -Force -Recurse C:\hhdcommand\PsDev\HPsUtils\bin\Debug\* $PSHOME
+        Write-Host "install ${modulename} ..."
+        Install-Package $modulename -Verbose
     }
-    Catch
+    else 
     {
-        Write-Host "failed to copy HPsUtils.dll !!! ex : "
-        Write-Host $_.Exception
+        Write-Host "${modulename} already installed !!!"
     }
 
-    Add-Type -Path "$PSHOME\HPsUtils.dll"
-    Import-Module "$PSHOME\HPsUtils.dll"
-}
-else
-{
-    Write-Host "skip HPsUtils.dll ..."
+    Write-Host "import ${modulename} ..."
+    Import-Module $modulename -Verbose
 }
 
 
 
+Write-Host "import module posh-git ..."
+hhdmoduleinstallimport -modulename posh-git
+
+
+
+Write-Host "setup git prompt ..."
+function global:prompt {
+    $realLASTEXITCODE = $LASTEXITCODE
+
+    Write-Host($pwd.ProviderPath) -nonewline
+
+    Write-VcsStatus
+
+    $global:LASTEXITCODE = $realLASTEXITCODE
+    return "> "
+}
+
+
+
+Write-Host "cd c:\temp ..."
 if($pwd -like "*WINDOWS\System32*")
 {
     if(!(Test-Path \temp))
@@ -82,33 +86,29 @@ if($pwd -like "*WINDOWS\System32*")
 
 
 
-
-
-
-##############################################################################################
-# alias ... 
-##############################################################################################
-
-Write-Host "alias ... "
+Write-Host "setup alias ... "
 
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
 Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
 Set-Alias open "C:\Windows\SysWOW64\explorer.exe"
-Set-Alias vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe"
-Set-Alias vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe"
+Set-Alias vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
+Set-Alias vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
 Set-Alias blend2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\blend.exe"
 Set-Alias blend2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\blend.exe"
 Set-Alias honeyview "C:\Program Files\Honeyview\Honeyview.exe"
 Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
-
-
-
-
-
-
-##############################################################################################
-# functions ... 
-##############################################################################################
+Set-Alias nuget "C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
+Set-Alias java "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\java.exe"
+Set-Alias javac "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javac.exe"
+Set-Alias apt "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\apt.exe"
+Set-Alias jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
+Set-Alias javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
+Set-Alias zip Compress-Archive
+Set-Alias unzip Expand-Archive
+Remove-Item alias:\cd
+Set-Alias cd Push-Location
+Set-Alias pd Pop-Location
+Set-Alias nuget "C:\hhdcommand\nuget\nuget.exe"
 
 
 
@@ -152,19 +152,6 @@ function hhdsublimeprofileps1
 function hhdcatprofileps1
 {
     cat c:\hhdcommand\PsDev\PsScripts\profile.ps1
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-    PS C:\> hhdcd win
-    PS C:\Windows>
-#>
-function hhdcd($keyword)
-{
-    cd *$keyword*
 }
 
 
@@ -322,6 +309,7 @@ function hhdazurestopallwebsite()
 }
 
 
+
 <#
 .SYNOPSIS
 .EXAMPLE
@@ -330,6 +318,7 @@ function hhdazuregetwebsiteloghhdyidbot()
 {
     Get-AzureWebsiteLog -Name hhdyidbot -Tail
 }
+
 
 
 <#
@@ -388,7 +377,6 @@ function hhdiotconnectminwinpc()
 
 
 
-
 <#
 .SYNOPSIS
 .EXAMPLE
@@ -419,70 +407,10 @@ New-PSDrive -Name iot -PSProvider FileSystem -Root \\`$servername\c$ -Credential
 
 <#
 .SYNOPSIS
-    mycomplexfunc 별거없다.
 .PARAMETER process
-    프로세스 객체
 .PARAMETER prefix
-    일반 문자열 객체
 .PARAMETER strArray
-    문자열 배열
 .EXAMPLE
-    PS C:\temp> ps | where {$_.Name -eq "chrome"} | mycomplexfunc -prefix "프레픽스" -strArray @("일", "이", "삼")
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 1
-    디버그: randValue : 이
-    디버그: strArray.Length : 3
-    디버그: idx : 1
-    디버그: randValue : 이
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 2
-    디버그: randValue : 삼
-    디버그: strArray.Length : 3
-    디버그: idx : 0
-    디버그: randValue : 일
-    prefix   ProcessName ProcessId randValue
-    ------   ----------- --------- ---------
-    프레픽스 chrome           8924 삼
-    프레픽스 chrome          12980 삼
-    프레픽스 chrome          13816 삼
-    프레픽스 chrome          14596 삼
-    프레픽스 chrome          16776 이
-    프레픽스 chrome          18068 이
-    프레픽스 chrome          18172 삼
-    프레픽스 chrome          18404 삼
-    프레픽스 chrome          20244 삼
-    프레픽스 chrome          20324 삼
-    프레픽스 chrome          21784 삼
-    프레픽스 chrome          22216 삼
-    프레픽스 chrome          22412 일
 #>
 function mycomplexfunc
 {
@@ -534,9 +462,7 @@ function mycomplexfunc
 
 <#
 .SYNOPSIS
-    azure sql server database의 디테일한 정보 리턴
 .PARAMETER dbObj
-    azure sql server database 객체 
 .EXAMPLE
     PS C:\temp> Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhdazuresqldatabasedetail
 #>
@@ -588,11 +514,8 @@ function hhdazuresqldatabasedetail
 
 <#
 .SYNOPSIS
-    시놉시스 ...
 .PARAMETER var
-    var ...
 .EXAMPLE
-    PS> ex ...
 #>
 function hhdnetworkgetpubip
 {
@@ -605,14 +528,88 @@ function hhdnetworkgetpubip
 
 <#
 .SYNOPSIS
-    시놉시스 ...
 .PARAMETER var
-    var ...
 .EXAMPLE
-    PS> ex ...
 #>
 function hhdls($dir, $path)
 {
     $result = ls $dir -Recurse -Force | where FullName -Like $path
     Write-Host $result.FullName
+}
+
+
+
+<#
+.SYNOPSIS
+.PARAMETER var
+.EXAMPLE
+#>
+function hhdwmigetprogram
+{
+    gwmi -Class win32_product
+}
+
+
+
+<#
+.SYNOPSIS
+.PARAMETER dllpath
+.EXAMPLE
+    C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll
+#>
+function hhdmoduleloadfromdll($dllpath)
+{
+    if (Test-Path $dllpath -eq $false)
+    {
+        Write-Host "no file ${dllpath} ..."
+        return
+    }
+
+    Add-Type -Path $dllpath -Verbose
+    Import-Module $dllpath -Verbose
+}
+
+
+
+<#
+.SYNOPSIS
+.PARAMETER dllpath
+.EXAMPLE
+#>
+function hhdnugetrestore($slnfile)
+{
+    nuget restore -SolutionDirectory $slnfile -PackagesDirectory packages
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Write-Host "update profile.ps1 ..."
+
+if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
+{
+    Write-Host "copy profile.ps1 ..."
+    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0"
+}
+else
+{
+    Write-Host "skip profile.ps1 ..."
 }
