@@ -2,19 +2,6 @@ Write-Host "hello ${env:USERNAME}, welcome ..."
 
 
 
-Write-Host "configure path ..."
-
-$oldPath = Get-Content Env:\Path
-
-Set-Item Env:\Path "
-    $oldPath;
-    C:\hhdcommand\PortableGit\bin;
-"
-
-cat Env:\Path
-
-
-
 Write-Host "configure output encoding as utf8 ..."
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
 
@@ -30,63 +17,10 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
 
-<#
-.SYNOPSIS
-.PARAMETER modulename
-.EXAMPLE
-#>
-function hhdmoduleinstallimport($modulename)
-{
-    if((Get-InstalledModule -name $modulename).count -eq 0)
-    {
-        Write-Host "install ${modulename} ..."
-        Install-Package $modulename -Verbose
-    }
-    else 
-    {
-        Write-Host "${modulename} already installed !!!"
-    }
-
-    Write-Host "import ${modulename} ..."
-    Import-Module $modulename -Verbose
-}
 
 
 
-Write-Host "import module posh-git ..."
-hhdmoduleinstallimport -modulename posh-git
-
-
-
-Write-Host "setup git prompt ..."
-function global:prompt {
-    $realLASTEXITCODE = $LASTEXITCODE
-
-    Write-Host($pwd.ProviderPath) -nonewline
-
-    Write-VcsStatus
-
-    $global:LASTEXITCODE = $realLASTEXITCODE
-    return "> "
-}
-
-
-
-Write-Host "cd c:\temp ..."
-if($pwd -like "*WINDOWS\System32*")
-{
-    if(!(Test-Path \temp))
-    {
-        mkdir \temp
-    }
-
-    Write-Host "change directory to temp ..."
-    cd \temp
-}
-
-
-
-Write-Host "setup alias ... "
+Write-Host "setup program alias ... "
 
 Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
 Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
@@ -105,10 +39,121 @@ Set-Alias jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
 Set-Alias javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
 Set-Alias zip Compress-Archive
 Set-Alias unzip Expand-Archive
-Remove-Item alias:\cd
-Set-Alias cd Push-Location
-Set-Alias pd Pop-Location
-Set-Alias nuget "C:\hhdcommand\nuget\nuget.exe"
+Set-Alias git "C:\hhdcommand\PortableGit\bin\git.exe"
+
+
+
+
+
+
+Write-Host "setup functions ... "
+
+<#
+.SYNOPSIS
+.PARAMETER modulename
+.EXAMPLE
+#>
+function hhdmoduleinstallimport($modulename)
+{
+    if((Get-InstalledModule -name $modulename).count -eq 0)
+    {
+        Write-Host "install ${modulename} ..."
+        Install-Package $modulename -Force -Verbose
+    }
+    else 
+    {
+        Write-Host "${modulename} already installed !!!"
+    }
+
+    Write-Host "import ${modulename} ..."
+    Import-Module $modulename -Force -Verbose
+}
+
+
+
+$dirBackwardStack = New-Object -TypeName System.Collections.Stack
+$dirForwardStack = New-Object -TypeName System.Collections.Stack
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddirchange($dir)
+{
+    if((Test-Path $dir) -eq $false)
+    {
+        Write-Host "${dir} is not directory !!!"
+        return
+    }
+
+    $dirBackwardStack.Push((Resolve-Path $dir).Path)
+    Set-Location $dir
+}
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddirbackward()
+{
+    if ($dirBackwardStack.Count -eq 0) 
+    {
+        Write-Host "dirBackwardStack is empty !!!"
+        return
+    }
+
+    while($true)
+    {
+        $dir = $dirBackwardStack.Pop()
+        $dirForwardStack.Push($dir)
+
+        if ($dir -ne (pwd).Path) 
+        {
+            break
+        }
+
+        if ($dirBackwardStack.Count -eq 0) 
+        {
+            Write-Host "dirBackwardStack is empty !!!"
+            return
+        }
+    }
+    
+    Set-Location $dir
+}
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddirforward()
+{
+    if ($dirForwardStack.Count -eq 0) 
+    {
+        Write-Host "dirForwardStack is empty !!!"
+        return
+    }
+
+    while($true)
+    {
+        $dir = $dirForwardStack.Pop()
+        $dirBackwardStack.Push($dir)
+
+        if ($dir -ne (pwd).Path) 
+        {
+            break
+        }
+
+        if ($dirForwardStack.Count -eq 0) 
+        {
+            Write-Host "dirForwardStack is empty !!!"
+            return
+        }
+    }
+    
+    Set-Location $dir
+}
+
 
 
 
@@ -583,22 +628,174 @@ function hhdnugetrestore($slnfile)
 
 
 
+<#
+.SYNOPSIS
+.PARAMETER
+.EXAMPLE
+#>
+function hhdenvsetpath()
+{
+    Write-Host "configure path ..."
+
+    $oldPath = Get-Content Env:\Path
+
+    Set-Item Env:\Path "
+        $oldPath;
+        C:\hhdcommand\PortableGit\bin;
+    "
+
+    cat Env:\Path
+}
+
+
+
+
+function hhdgcmgetscriptcontent($cmdname)
+{
+    return (gcm $cmdname).ScriptBlock
+}
+
+
+
+function hhdfileappenddate()
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.IO.FileInfo]
+        $file,
+
+        [switch]
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        $changedatealwaysnew = $false
+    )
+    begin
+    {
+    }
+    process
+    {
+        if($file.Name.StartsWith("."))
+        {
+            Write-Host "${file}.Name start with . so skip ..."
+            return
+        }
+
+        $isProcessed = $false
+        $date6 = $file.CreationTime.ToString("yyMMdd")
+        $isPrefixNum = $false
+
+        if($file.Name.Length -gt 6)
+        {
+            $first6 = $file.Name.SubString(0, 6)
+
+            for($i = 0; $i -lt $first6.Length; $i++)
+            {
+                $isPrefixNum = @("0", "1", "2", "3", "4", "5", "6", "7", "8", "9") -contains $first6[$i]
+
+                if ($isPrefixNum -eq $false) 
+                {
+                    $isPrefixNum = $false
+                    break;
+                }
+            }
+        }
+
+        if($isPrefixNum)
+        {
+            if ($changedatealwaysnew) 
+            {
+                $newFileName = $date6 + $file.Name.Substring(6, $file.Name.Length - 6)
+                mv $file $newFileName
+                Write-Host "${file}.Name -> ${newFileName} !!!"
+            }
+            else 
+            {
+                Write-Host "${file}.Name is PrefixNum and is not changedatealwaysnew ..."
+            }
+        }
+        else 
+        {
+            $newFileName = $date6 + " " + $file.Name
+            Write-Host "${file}.Name -> ${newFileName}"
+            mv $file $newFileName
+        }
+    }
+}
+
+
+
+function hhdfilewritefortest()
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.IO.FileInfo]
+        $file
+    )
+    begin
+    {
+        Read-Host | Out-File $file
+    }
+    process
+    {
+    }
+}
 
 
 
 
 
 
+Write-Host "setup function alias ..."
+
+Remove-Item alias:\cd
+Set-Alias cd hhddirchange
+Set-Alias bd hhddirbackward
+Set-Alias fd hhddirforward
 
 
 
 
 
 
+Write-Host "process with visual studio powershell window or NOT ..."
+
+if((gcm prompt).ScriptBlock -like "*PM>*")
+{
+    Write-Host "this is visual studio powershell window."
+    Write-Host "skip setup prompt ..."
+}
+else 
+{
+    Write-Host "import module posh-git ..."
+    hhdmoduleinstallimport -modulename posh-git
+
+    function global:prompt 
+    {
+        $realLASTEXITCODE = $LASTEXITCODE
+        Write-Host($pwd.ProviderPath) -nonewline
+        Write-VcsStatus
+        $global:LASTEXITCODE = $realLASTEXITCODE
+        return "> "
+    }
+}
 
 
 
+Write-Host "cd c:\temp ..."
 
+if($pwd -like "*WINDOWS\System32*")
+{
+    if(!(Test-Path \temp))
+    {
+        mkdir \temp
+    }
+
+    Write-Host "change directory to temp ..."
+    cd \temp
+}
 
 
 
@@ -608,6 +805,7 @@ if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
 {
     Write-Host "copy profile.ps1 ..."
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0"
+    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\SysWOW64\WindowsPowerShell\v1.0"
 }
 else
 {
