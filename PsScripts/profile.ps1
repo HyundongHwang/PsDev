@@ -1,7 +1,4 @@
-﻿
-
-
-sal sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
+﻿sal sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
 sal open "C:\Windows\SysWOW64\explorer.exe"
 sal vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
 sal vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
@@ -13,6 +10,15 @@ sal javac "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javac.exe"
 sal apt "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\apt.exe"
 sal jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
 sal javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
+sal pi "C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell_ise.exe"
+
+sal zip Compress-Archive
+sal unzip Expand-Archive
+rd alias:\cd  -Verbose
+sal cd hhddirchange -Verbose
+sal bd hhddirbackward  -Verbose
+sal fd hhddirforward  -Verbose
+
 sal amcap "C:\hhdcommand\AMCap\amcap.exe"
 sal StillCap "C:\hhdcommand\AMCap\StillCap.exe"
 sal dbgview "C:\hhdcommand\dbgview\dbgview.exe"
@@ -22,7 +28,6 @@ sal Everything "C:\hhdcommand\Everything-1.3.4.686.x64.Multilingual\Everything.e
 sal filezilla "C:\hhdcommand\FileZilla-3.21.0\filezilla.exe"
 sal fzputtygen "C:\hhdcommand\FileZilla-3.21.0\fzputtygen.exe"
 sal fzsftp "C:\hhdcommand\FileZilla-3.21.0\fzsftp.exe"
-sal git-bash "C:\hhdcommand\PortableGit\git-bash.exe"
 sal postimage "C:\hhdcommand\PostimagePortable\postimage.exe"
 sal ProcessExplorer "C:\hhdcommand\ProcessExplorer\procexp.exe"
 sal ffmpeg "C:\hhdcommand\UmmyVideoDownloader\1.7.2.2\ffmpeg.exe"
@@ -30,8 +35,6 @@ sal UmmyVideoDownloader "C:\hhdcommand\UmmyVideoDownloader\UmmyVideoDownloader.e
 sal WiresharkPortable "C:\hhdcommand\WiresharkPortable\WiresharkPortable.exe"
 sal YouTubeToMp3 "C:\hhdcommand\YouTubeToMP3-portable\YouTubeToMp3.exe"
 sal ffmpeg "C:\hhdcommand\YouTubeToMP3-portable\ffmpeg.exe"
-sal git "C:\hhdcommand\PortableGit\bin\git.exe"
-sal ssh "C:\hhdcommand\PortableGit\usr\bin\ssh.exe"
 sal gacutil-NET-Global-Assembly-Cache-Utility "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\gacutil.exe"
 sal ildasm "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\ildasm.exe"
 sal ildasm-chm "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\ildasm.exe"
@@ -88,13 +91,17 @@ sal vcredist_arm-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Progra
 sal vcredist_x64-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x64.exe'
 sal vcredist_x86-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x86.exe'
 sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\spyxx.chm'
-sal zip Compress-Archive
-sal unzip Expand-Archive
-sal pi "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe"
-rd alias:\cd  -Verbose
-sal cd hhddirchange -Verbose
-sal bd hhddirbackward  -Verbose
-sal fd hhddirforward  -Verbose
+
+write "configure path ..."
+
+$oldPath = Get-Content Env:\Path
+
+Set-Item Env:\Path "
+    $oldPath;
+    C:\hhdcommand\PortableGit\bin;
+"
+
+cat Env:\Path
 
 
 
@@ -689,31 +696,6 @@ function hhdnugetrestore
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdenvsetpath
-{
-    [CmdletBinding()]
-    param
-    (
-    )
-
-    write "configure path ..."
-
-    $oldPath = Get-Content Env:\Path
-
-    Set-Item Env:\Path "
-        $oldPath;
-        C:\hhdcommand\PortableGit\bin;
-    "
-
-    cat Env:\Path
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
 function hhdgcmgetscriptcontent
 {
     [CmdletBinding()]
@@ -867,6 +849,9 @@ function hhdcdaddpath
 
 
 
+
+
+
 write "main start ..."
 write "OutputEncoding = UTF8 ..."
 $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
@@ -933,9 +918,8 @@ else
 
 
 
-
-
 write "load hhdfavList.json ..."
+
 cat ~/hhdfavList.json | ConvertFrom-Json | set temp 
     
 $temp | % { 
