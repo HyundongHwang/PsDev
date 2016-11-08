@@ -1,227 +1,256 @@
-Write-Host "hello ${env:USERNAME}, welcome ..."
+﻿sal sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
+sal open "C:\Windows\SysWOW64\explorer.exe"
+sal vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
+sal vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
+sal blend2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\blend.exe"
+sal blend2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\blend.exe"
+sal nuget "C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
+sal java "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\java.exe"
+sal javac "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javac.exe"
+sal apt "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\apt.exe"
+sal jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
+sal javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
+sal amcap "C:\hhdcommand\AMCap\amcap.exe"
+sal StillCap "C:\hhdcommand\AMCap\StillCap.exe"
+sal dbgview "C:\hhdcommand\dbgview\dbgview.exe"
+sal depends "C:\hhdcommand\depends\depends.exe"
+sal DSFMgr "C:\hhdcommand\DSFMgr\DSFMgr.exe"
+sal Everything "C:\hhdcommand\Everything-1.3.4.686.x64.Multilingual\Everything.exe"
+sal filezilla "C:\hhdcommand\FileZilla-3.21.0\filezilla.exe"
+sal fzputtygen "C:\hhdcommand\FileZilla-3.21.0\fzputtygen.exe"
+sal fzsftp "C:\hhdcommand\FileZilla-3.21.0\fzsftp.exe"
+sal git-bash "C:\hhdcommand\PortableGit\git-bash.exe"
+sal postimage "C:\hhdcommand\PostimagePortable\postimage.exe"
+sal ProcessExplorer "C:\hhdcommand\ProcessExplorer\procexp.exe"
+sal ffmpeg "C:\hhdcommand\UmmyVideoDownloader\1.7.2.2\ffmpeg.exe"
+sal UmmyVideoDownloader "C:\hhdcommand\UmmyVideoDownloader\UmmyVideoDownloader.exe"
+sal WiresharkPortable "C:\hhdcommand\WiresharkPortable\WiresharkPortable.exe"
+sal YouTubeToMp3 "C:\hhdcommand\YouTubeToMP3-portable\YouTubeToMp3.exe"
+sal ffmpeg "C:\hhdcommand\YouTubeToMP3-portable\ffmpeg.exe"
+sal git "C:\hhdcommand\PortableGit\bin\git.exe"
+sal ssh "C:\hhdcommand\PortableGit\usr\bin\ssh.exe"
+sal gacutil-NET-Global-Assembly-Cache-Utility "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\gacutil.exe"
+sal ildasm "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\ildasm.exe"
+sal ildasm-chm "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\ildasm.exe"
+sal FUSLOGVW-Assembly-Binding-Log-Viewer "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\FUSLOGVW.exe"
+sal clrver-NET-CLR-Version-Tool "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\clrver.exe"
+sal lc-NET-Licenses-file-and-adds-it-to-the-manifest-of-the-given-assembly "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\lc.exe"
+sal PEVerify-NET-Framework-PE-Verifier "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\PEVerify.exe"
+sal sn-NET-Framework-Strong-Name-Utility "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6 Tools\x64\sn.exe"
+sal AccCheckConsole "C:\Program Files (x86)\Windows Kits\10\bin\x64\AccChecker\AccCheckConsole.exe"
+sal acccheckui "C:\Program Files (x86)\Windows Kits\10\bin\x64\AccChecker\acccheckui.exe"
+sal VisualUIAVerifyNative "C:\Program Files (x86)\Windows Kits\10\bin\x64\UIAVerify\VisualUIAVerifyNative.exe"
+sal cert2spc "C:\Program Files (x86)\Windows Kits\10\bin\x64\cert2spc.exe"
+sal certmgr "C:\Program Files (x86)\Windows Kits\10\bin\x64\certmgr.exe"
+sal computerhardwareids-Using-the-BIOS-to-gather-information "C:\Program Files (x86)\Windows Kits\10\bin\x64\computerhardwareids.exe"
+sal filetypeverifier "C:\Program Files (x86)\Windows Kits\10\bin\x64\filetypeverifier.exe"
+sal filtreg-Filters-loaded-by-extension "C:\Program Files (x86)\Windows Kits\10\bin\x64\filtreg.exe"
+sal graphedt "C:\Program Files (x86)\Windows Kits\10\bin\x64\graphedt.exe"
+sal inspect-UIAccess "C:\Program Files (x86)\Windows Kits\10\bin\x64\inspect.exe"
+sal makecert "C:\Program Files (x86)\Windows Kits\10\bin\x64\makecert.exe"
+sal mt-Microsoft-Manifest-Tool "C:\Program Files (x86)\Windows Kits\10\bin\x64\mt.exe"
+sal oleview-OLE-COM-object-viewer "C:\Program Files (x86)\Windows Kits\10\bin\x64\oleview.exe"
+sal pktextract-from-cert "C:\Program Files (x86)\Windows Kits\10\bin\x64\pktextract.exe"
+sal pvk2pfx "C:\Program Files (x86)\Windows Kits\10\bin\x64\pvk2pfx.exe"
+sal signtool "C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe"
+sal uuidgen "C:\Program Files (x86)\Windows Kits\10\bin\x64\uuidgen.exe"
+sal tracefmt-format-message "C:\Program Files (x86)\Windows Kits\10\bin\x64\tracefmt.exe"
+sal tracelog "C:\Program Files (x86)\Windows Kits\10\bin\x64\tracelog.exe"
+sal sqlpackage "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130\sqlpackage.exe"
+sal 7z 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Xamarin\Xamarin\4.1.1.3\7-Zip\7z.exe'
+sal msvsmon-x64 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Remote Debugger\x64\msvsmon.exe"
+sal msvsmon-x86 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Remote Debugger\x86\msvsmon.exe"
+sal errlook 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\errlook.exe'
+sal guidgen 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\guidgen.exe'
+sal spyxx 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\spyxx.exe'
+sal dotfuscated-HelloWorld 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\samples\HelloWorld\dotfuscated\HelloWorld.exe'
+sal HelloWorld 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\samples\HelloWorld\HelloWorld.exe'
+sal dotfuscator 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscator.exe'
+sal dotfuscatorCLI 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscatorCLI.exe'
+sal VSPerf-Data-Collector 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerf.exe'
+sal VSPerf-ASP-NET-Command 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerfASPNetCmd.exe'
+sal VSPerf-ASP-NET-Command 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerfCmd.exe'
+sal FxCopCmd 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe'
+sal bscmake-Browse-Information-Maintenance-Utility 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64\bscmake.exe'
+sal cl-Microsoft-C-Cpp-Optimizing-Compiler 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe'
+sal cvtres-Microsoft-Windows-Resource-To-Object-Converter 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cvtres.exe'
+sal dumpbin-COFF-PE-Dumper 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin.exe'
+sal editbin-COFF-PE-Editor 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\editbin.exe'
+sal lib-Library-Manager 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\lib.exe'
+sal link-Incremental-Linker 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe'
+sal ml 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\ml.exe'
+sal nmake 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\nmake.exe'
+sal undname-Cpp-Name-Undecorator 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\undname.exe'
+sal vcredist_arm-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_arm.exe'
+sal vcredist_x64-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x64.exe'
+sal vcredist_x86-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x86.exe'
+sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\spyxx.chm'
+sal zip Compress-Archive
+sal unzip Expand-Archive
+sal pi "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe"
+rd alias:\cd  -Verbose
+sal cd hhddirchange -Verbose
+sal bd hhddirbackward  -Verbose
+sal fd hhddirforward  -Verbose
 
 
 
-Write-Host "configure output encoding as utf8 ..."
-$OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
 
 
 
-# Write-Host "configure DebugPreference ..."
-# $DebugPreference = "continue"
-
-
-
-Write-Host "configure execution policy ..."
-Set-ExecutionPolicy Bypass -Scope Process -Force
+$g_hhdDirBackwardStack = New-Object -TypeName System.Collections.Stack
+$g_hhdDirForwardStack = New-Object -TypeName System.Collections.Stack
+$g_hhdFavList = New-Object System.Collections.Generic.List[psobject]
 
 
 
 
 
-
-Write-Host "setup program alias ... "
-
-Set-Alias vim "c:\hhdcommand\vim74\vim.exe"
-Set-Alias sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
-Set-Alias open "C:\Windows\SysWOW64\explorer.exe"
-Set-Alias vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
-Set-Alias vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
-Set-Alias blend2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\blend.exe"
-Set-Alias blend2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\blend.exe"
-Set-Alias honeyview "C:\Program Files\Honeyview\Honeyview.exe"
-Set-Alias sqlite3 "c:\hhdcommand\sqlite\sqlite3.exe"
-Set-Alias nuget "C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
-Set-Alias java "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\java.exe"
-Set-Alias javac "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javac.exe"
-Set-Alias apt "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\apt.exe"
-Set-Alias jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
-Set-Alias javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
-Set-Alias zip Compress-Archive
-Set-Alias unzip Expand-Archive
-Set-Alias git "C:\hhdcommand\PortableGit\bin\git.exe"
-
-
-
-
-
-
-Write-Host "setup functions ... "
 
 <#
 .SYNOPSIS
-.PARAMETER modulename
 .EXAMPLE
 #>
-function hhdmoduleinstallimport($modulename)
+function hhddirchange
 {
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.IO.DirectoryInfo]
+        $dir
+    )
+
+    if((Test-Path $dir) -eq $false)
+    {
+        write "${dir} is not directory !!!"
+        return
+    }
+
+    $g_hhdDirBackwardStack.Push((Resolve-Path $dir).Path)
+    Set-Location $dir
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddirbackward
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    if ($g_hhdDirBackwardStack.Count -eq 0) 
+    {
+        write "g_hhdDirBackwardStack is empty !!!"
+        return
+    }
+
+    while($true)
+    {
+        $dir = $g_hhdDirBackwardStack.Pop()
+        $g_hhdDirForwardStack.Push($dir)
+
+        if ($dir -ne (pwd).Path) 
+        {
+            break
+        }
+
+        if ($g_hhdDirBackwardStack.Count -eq 0) 
+        {
+            write "g_hhdDirBackwardStack is empty !!!"
+            return
+        }
+    }
+    
+    Set-Location $dir
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddirforward
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    if ($g_hhdDirForwardStack.Count -eq 0) 
+    {
+        write "g_hhdDirForwardStack is empty !!!"
+        return
+    }
+
+    while($true)
+    {
+        $g_hhdDirBackwardStack.Push($dir)
+
+        if ($dir -ne (pwd).Path) 
+        {
+            break
+        }
+
+        if ($g_hhdDirForwardStack.Count -eq 0) 
+        {
+            write "g_hhdDirForwardStack is empty !!!"
+            return
+        }
+    }
+    
+    Set-Location $dir
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdmoduleinstallimport
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $modulename
+    )
+
     if((Get-InstalledModule -name $modulename).count -eq 0)
     {
-        Write-Host "install ${modulename} ..."
+        write "install ${modulename} ..."
         Install-Package $modulename -Force -Verbose
     }
     else 
     {
-        Write-Host "${modulename} already installed !!!"
+        write "${modulename} already installed !!!"
     }
 
-    Write-Host "import ${modulename} ..."
+    write "import ${modulename} ..."
     Import-Module $modulename -Force -Verbose
 }
 
 
 
-$dirBackwardStack = New-Object -TypeName System.Collections.Stack
-$dirForwardStack = New-Object -TypeName System.Collections.Stack
-
 <#
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhddirchange($dir)
+function hhdps
 {
-    if((Test-Path $dir) -eq $false)
-    {
-        Write-Host "${dir} is not directory !!!"
-        return
-    }
+    [CmdletBinding()]
+    param
+    (
+    )
 
-    $dirBackwardStack.Push((Resolve-Path $dir).Path)
-    Set-Location $dir
-}
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhddirbackward()
-{
-    if ($dirBackwardStack.Count -eq 0) 
-    {
-        Write-Host "dirBackwardStack is empty !!!"
-        return
-    }
-
-    while($true)
-    {
-        $dir = $dirBackwardStack.Pop()
-        $dirForwardStack.Push($dir)
-
-        if ($dir -ne (pwd).Path) 
-        {
-            break
-        }
-
-        if ($dirBackwardStack.Count -eq 0) 
-        {
-            Write-Host "dirBackwardStack is empty !!!"
-            return
-        }
-    }
-    
-    Set-Location $dir
-}
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhddirforward()
-{
-    if ($dirForwardStack.Count -eq 0) 
-    {
-        Write-Host "dirForwardStack is empty !!!"
-        return
-    }
-
-    while($true)
-    {
-        $dir = $dirForwardStack.Pop()
-        $dirBackwardStack.Push($dir)
-
-        if ($dir -ne (pwd).Path) 
-        {
-            break
-        }
-
-        if ($dirForwardStack.Count -eq 0) 
-        {
-            Write-Host "dirForwardStack is empty !!!"
-            return
-        }
-    }
-    
-    Set-Location $dir
-}
-
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdcdtemp
-{
-    cd c:\temp
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdcdproject
-{
-    cd c:\project
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdsublimeprofileps1
-{
-    sublime c:\hhdcommand\PsDev\PsScripts\profile.ps1
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdcatprofileps1
-{
-    cat c:\hhdcommand\PsDev\PsScripts\profile.ps1
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-    PS C:\> hhdps
-
-       Id Name                       WS(M) Path
-       -- ----                       ----- ----
-        4 System                       595
-    18524 devenv                       426 C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe
-     8188 chrome                       171 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-    17652 chrome                       152 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-     8600 chrome                       142 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-     3684 chrome                       140 C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
-     3696 MsMpEng                      130
-    11032 PowerShellToolsProcessHost   105 C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\qablerhr.v4z\PowerShellT
-                                           oolsProcessHost.exe
-     3016 powershell                    93 C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-     6316 explorer                      91 C:\WINDOWS\Explorer.EXE
-#>
-function hhdps()
-{
     ps | sort WS -Descending | select Id, Name, @{l="WS(M)"; e={[int]($_.WS / 1024 / 1024)}}, Path -First 10 | ft -AutoSize -Wrap
 }
 
@@ -233,29 +262,12 @@ function hhdps()
 #>
 function hhdgitgraph
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     git log --pretty=format:"%h %s - %an %ar" --graph
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdcatlog($path)
-{
-    cat -Wait $path
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdvspsdev()
-{
-    Start-Process devenv.exe -Verb runAs -ArgumentList c:\hhdcommand\PsDev\PsDev.sln
 }
 
 
@@ -266,6 +278,11 @@ function hhdvspsdev()
 #>
 function hhdadblogcatmono
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     adb logcat -s mono-stdout:v
 }
 
@@ -275,9 +292,20 @@ function hhdadblogcatmono
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdazureloginauto()
+function hhdazureloginauto
 {
-    Write-Host "azure login ..."
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    if ((Test-Path ~/*publishsettings) -eq $false) 
+    {
+        Get-AzurePublishSettingsFile
+        write ("save at {0}" -f (Resolve-Path ~).Path)
+    }
+
+    write "azure login ..."
     Import-AzurePublishSettingsFile ~\*.publishsettings    
 }
 
@@ -287,32 +315,31 @@ function hhdazureloginauto()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdazurecurrent()
+function hhdazurecurrent
 {
-    Write-Host "azure subscription check ..."
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    write "azure subscription check ..."
     pause
     Get-AzureSubscription
 
-
-
-    Write-Host "azure website check ..."
+    write "azure website check ..."
     pause
     Get-AzureWebsite
     Get-AzureWebHostingPlan
 
-
-
-    Write-Host "azure sql database check ..."
+    write "azure sql database check ..."
     pause
     Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhdazuresqldatabasedetail
 
-
-
-    Write-Host "azure storage account check ..."
+    write "azure storage account check ..."
     pause
     Get-AzureStorageAccount
 
-    Write-Host "azure storage blob check ..."
+    write "azure storage blob check ..."
     pause
     Get-AzureStorageAccount | Get-AzureStorageContainer | Get-AzureStorageBlob
 }
@@ -323,15 +350,20 @@ function hhdazurecurrent()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdazurestartallwebsite()
+function hhdazurestartallwebsite
 {
-    Write-Host "azure website check ..."
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    write "azure website check ..."
     Get-AzureWebSite
 
-    Write-Host "start all websites ..."
+    write "start all websites ..."
     Get-AzureWebSite | Start-AzureWebSite
 
-    Write-Host "azure website check ..."
+    write "azure website check ..."
     Get-AzureWebSite
 }
 
@@ -341,15 +373,20 @@ function hhdazurestartallwebsite()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdazurestopallwebsite()
+function hhdazurestopallwebsite
 {
-    Write-Host "azure website check ..."
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    write "azure website check ..."
     Get-AzureWebSite
 
-    Write-Host "stop all websites ..."
+    write "stop all websites ..."
     Get-AzureWebSite | Stop-AzureWebSite
 
-    Write-Host "azure website check ..."
+    write "azure website check ..."
     Get-AzureWebSite
 }
 
@@ -359,8 +396,13 @@ function hhdazurestopallwebsite()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdazuregetwebsiteloghhdyidbot()
+function hhdazuregetwebsiteloghhdyidbot
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     Get-AzureWebsiteLog -Name hhdyidbot -Tail
 }
 
@@ -368,22 +410,15 @@ function hhdazuregetwebsiteloghhdyidbot()
 
 <#
 .SYNOPSIS
-.PARAMETER path
 .EXAMPLE
 #>
-function hhdrm($path)
+function hhdkillallpowershellwithoutme
 {
-    rm -Recurse -Force $path
-}
+    [CmdletBinding()]
+    param
+    (
+    )
 
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhdkillallpowershellwithoutme()
-{
     ps -Name *powershell* | where { $_.Id -ne $PID } | kill
 }
 
@@ -394,18 +429,30 @@ function hhdkillallpowershellwithoutme()
 .EXAMPLE
     hhdiotconnect -servername "minwinpc" -password "p@ssw0rd"
 #>
-function hhdiotconnect($servername, $password)
+function hhdiotconnect
 {
-    Write-Host "start winrm service ..."
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $servername,
+
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $password
+    )
+
+    write "start winrm service ..."
     net start winrm
 
-    Write-Host "add TrustedHosts ..."
+    write "add TrustedHosts ..."
     Set-Item WSMan:\localhost\Client\TrustedHosts -Value $servername
 
     $passwordEnc = ConvertTo-SecureString $password -AsPlainText -Force
     $cred = New-Object System.Management.Automation.PSCredential("$servername\administrator", $passwordEnc)
 
-    Write-Host "enter pssession ..."
+    write "enter pssession ..."
     Enter-PSSession -ComputerName $servername -Credential $cred
 }
 
@@ -415,8 +462,13 @@ function hhdiotconnect($servername, $password)
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdiotconnectminwinpc()
+function hhdiotconnectminwinpc
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     hhdiotconnect -servername "minwinpc" -password "p@ssw0rd"
 }
 
@@ -426,8 +478,13 @@ function hhdiotconnectminwinpc()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdiotconnectfirstrp3()
+function hhdiotconnectfirstrp3
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     hhdiotconnect -servername "firstrp3" -password "p@ssw0rd"
 }
 
@@ -437,9 +494,14 @@ function hhdiotconnectfirstrp3()
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdiotmountdrivefirstrp3()
+function hhdiotmountdrivefirstrp3
 {
-    Write-Host "
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    write "
 `$servername = `"firstrp2`"
 `$password = `"password`"
 `$passwordEnc = ConvertTo-SecureString `$password -AsPlainText -Force
@@ -452,9 +514,6 @@ New-PSDrive -Name iot -PSProvider FileSystem -Root \\`$servername\c$ -Credential
 
 <#
 .SYNOPSIS
-.PARAMETER process
-.PARAMETER prefix
-.PARAMETER strArray
 .EXAMPLE
 #>
 function mycomplexfunc
@@ -472,44 +531,37 @@ function mycomplexfunc
         [System.String[]]
         $strArray
     )
-    begin
+
+    $obj = New-Object -typename PSObject
+
+    $obj | Add-Member -MemberType NoteProperty -Name prefix -Value $prefix
+    $obj | Add-Member -MemberType NoteProperty -Name ProcessName -Value $process.Name
+    $obj | Add-Member -MemberType NoteProperty -Name ProcessId -Value $process.Id
+
+    write ("strArray.Length : " + $strArray.Length)
+
+    if ($strArray.Length -gt 0) 
     {
+        $rand = New-Object -TypeName System.Random
+        $idx = $rand.Next($strArray.Length)
+
+        write ("idx : " + $idx)
+
+        $randValue = $strArray[$idx]
+
+        write ("randValue : " + $randValue)
+
+        $obj | Add-Member -MemberType NoteProperty -Name randValue -Value $randValue
     }
-    process
-    {
-        $obj = New-Object -typename PSObject
 
-        $obj | Add-Member -MemberType NoteProperty -Name prefix -Value $prefix
-        $obj | Add-Member -MemberType NoteProperty -Name ProcessName -Value $process.Name
-        $obj | Add-Member -MemberType NoteProperty -Name ProcessId -Value $process.Id
-
-        Write-Host ("strArray.Length : " + $strArray.Length)
-
-        if ($strArray.Length -gt 0) 
-        {
-            $rand = New-Object -TypeName System.Random
-            $idx = $rand.Next($strArray.Length)
-
-            Write-Host ("idx : " + $idx)
-
-            $randValue = $strArray[$idx]
-
-            Write-Host ("randValue : " + $randValue)
-
-            $obj | Add-Member -MemberType NoteProperty -Name randValue -Value $randValue
-        }
-
-        Write-Output $obj
-    }
+    Write-Output $obj
 }
 
 
 
 <#
 .SYNOPSIS
-.PARAMETER dbObj
 .EXAMPLE
-    PS C:\temp> Get-AzureSqlDatabaseServer | Get-AzureSqlDatabase | hhdazuresqldatabasedetail
 #>
 function hhdazuresqldatabasedetail
 {
@@ -520,77 +572,66 @@ function hhdazuresqldatabasedetail
         [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
         $dbObj
     )
-    begin
-    {
-    }
-    process
-    {
-        $obj = New-Object -typename PSObject
-        $dbType = [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
-        $methodList = $dbType.GetMethods() | where { $_.Name -like "get_*" }
 
-        foreach ($method in $methodList) 
+    $obj = New-Object -typename PSObject
+    $dbType = [Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.Database]
+    $methodList = $dbType.GetMethods() | where { $_.Name -like "get_*" }
+
+    foreach ($method in $methodList) 
+    {
+        $name = $method.Name.TrimStart("get_")
+        $value = $method.Invoke($dbObj, $null)
+
+        if ([string]::IsNullOrWhiteSpace($value))
         {
-            $name = $method.Name.TrimStart("get_")
-            $value = $method.Invoke($dbObj, $null)
-
-            if ([string]::IsNullOrWhiteSpace($value))
-            {
-                continue
-            }
-
-
-
-            $obj | Add-Member -MemberType NoteProperty -Name $name -Value $value
+            continue
         }
 
-        #pyx1rbr0s0.database.windows.net
-        #Server=tcp:pyx1rbr0s0.database.windows.net,1433;Data Source=pyx1rbr0s0.database.windows.net;Initial Catalog=hhdyidbot;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
 
-        $serverName = $dbObj.Context.ServerName
-        $dbName = $dbObj.Name
-        $obj | Add-Member -MemberType NoteProperty -Name ServerAddress -Value "$serverName.database.windows.net"
-        $obj | Add-Member -MemberType NoteProperty -Name ConnectionString -Value "Server=tcp:$serverName.database.windows.net,1433;Data Source=$serverName.database.windows.net;Initial Catalog=$dbName;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-        Write-Output $obj
+
+        $obj | Add-Member -MemberType NoteProperty -Name $name -Value $value
     }
+
+    #pyx1rbr0s0.database.windows.net
+    #Server=tcp:pyx1rbr0s0.database.windows.net,1433;Data Source=pyx1rbr0s0.database.windows.net;Initial Catalog=hhdyidbot;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+    $serverName = $dbObj.Context.ServerName
+    $dbName = $dbObj.Name
+    $obj | Add-Member -MemberType NoteProperty -Name ServerAddress -Value "$serverName.database.windows.net"
+    $obj | Add-Member -MemberType NoteProperty -Name ConnectionString -Value "Server=tcp:$serverName.database.windows.net,1433;Data Source=$serverName.database.windows.net;Initial Catalog=$dbName;Persist Security Info=False;User ID={your_username};Password={your_password};Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    Write-Output $obj
 }
 
 
 
 <#
 .SYNOPSIS
-.PARAMETER var
 .EXAMPLE
 #>
 function hhdnetworkgetpubip
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     $myPubIp = (Invoke-WebRequest -Uri http://icanhazip.com).Content
     return $myPubIp   
 }
 
 
 
-
 <#
 .SYNOPSIS
-.PARAMETER var
-.EXAMPLE
-#>
-function hhdls($dir, $path)
-{
-    $result = ls $dir -Recurse -Force | where FullName -Like $path
-    Write-Host $result.FullName
-}
-
-
-
-<#
-.SYNOPSIS
-.PARAMETER var
 .EXAMPLE
 #>
 function hhdwmigetprogram
 {
+    [CmdletBinding()]
+    param
+    (
+    )
+
     gwmi -Class win32_product
 }
 
@@ -598,44 +639,61 @@ function hhdwmigetprogram
 
 <#
 .SYNOPSIS
-.PARAMETER dllpath
 .EXAMPLE
-    C:\hhdcommand\PsDev\HPsUtils\bin\Debug\HPsUtils.dll
 #>
-function hhdmoduleloadfromdll($dllpath)
+function hhdmoduleloadfromdll
 {
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $dllpath
+    )
+
     if (Test-Path $dllpath -eq $false)
     {
-        Write-Host "no file ${dllpath} ..."
+        write "no file ${dllpath} ..."
         return
     }
 
-    Add-Type -Path $dllpath -Verbose
-    Import-Module $dllpath -Verbose
+    Add-Type -Path $dllpath
+    Import-Module $dllpath
 }
 
 
 
 <#
 .SYNOPSIS
-.PARAMETER dllpath
 .EXAMPLE
 #>
-function hhdnugetrestore($slnfile)
+function hhdnugetrestore
 {
-    nuget restore -SolutionDirectory $slnfile -PackagesDirectory packages
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.IO.FileInfo]
+        $slnfile
+    )
+
+    nuget restore -SolutionDirectory $slnfile.FullName -PackagesDirectory packages
 }
 
 
 
 <#
 .SYNOPSIS
-.PARAMETER
 .EXAMPLE
 #>
-function hhdenvsetpath()
+function hhdenvsetpath
 {
-    Write-Host "configure path ..."
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    write "configure path ..."
 
     $oldPath = Get-Content Env:\Path
 
@@ -649,15 +707,30 @@ function hhdenvsetpath()
 
 
 
-
-function hhdgcmgetscriptcontent($cmdname)
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdgcmgetscriptcontent
 {
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $cmdname
+    )
+
     return (gcm $cmdname).ScriptBlock
 }
 
 
 
-function hhdfileappenddate()
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdfileappenddate
 {
     [CmdletBinding()]
     param
@@ -670,62 +743,61 @@ function hhdfileappenddate()
         [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
         $changedatealwaysnew = $false
     )
-    begin
+
+    if($file.Name.StartsWith("."))
     {
+        write "${file}.Name start with . so skip ..."
+        return
     }
-    process
+
+    $isProcessed = $false
+    $date6 = $file.CreationTime.ToString("yyMMdd")
+    $isPrefixNum = $false
+
+    if($file.Name.Length -gt 6)
     {
-        if($file.Name.StartsWith("."))
+        $first6 = $file.Name.SubString(0, 6)
+
+        for($i = 0; $i -lt $first6.Length; $i++)
         {
-            Write-Host "${file}.Name start with . so skip ..."
-            return
-        }
+            $isPrefixNum = @("0", "1", "2", "3", "4", "5", "6", "7", "8", "9") -contains $first6[$i]
 
-        $isProcessed = $false
-        $date6 = $file.CreationTime.ToString("yyMMdd")
-        $isPrefixNum = $false
-
-        if($file.Name.Length -gt 6)
-        {
-            $first6 = $file.Name.SubString(0, 6)
-
-            for($i = 0; $i -lt $first6.Length; $i++)
+            if ($isPrefixNum -eq $false) 
             {
-                $isPrefixNum = @("0", "1", "2", "3", "4", "5", "6", "7", "8", "9") -contains $first6[$i]
-
-                if ($isPrefixNum -eq $false) 
-                {
-                    $isPrefixNum = $false
-                    break;
-                }
+                $isPrefixNum = $false
+                break;
             }
         }
+    }
 
-        if($isPrefixNum)
+    if($isPrefixNum)
+    {
+        if ($changedatealwaysnew) 
         {
-            if ($changedatealwaysnew) 
-            {
-                $newFileName = $date6 + $file.Name.Substring(6, $file.Name.Length - 6)
-                mv $file $newFileName
-                Write-Host "${file}.Name -> ${newFileName} !!!"
-            }
-            else 
-            {
-                Write-Host "${file}.Name is PrefixNum and is not changedatealwaysnew ..."
-            }
+            $newFileName = $date6 + $file.Name.Substring(6, $file.Name.Length - 6)
+            mv $file $newFileName
+            write "${file}.Name -> ${newFileName} !!!"
         }
         else 
         {
-            $newFileName = $date6 + " " + $file.Name
-            Write-Host "${file}.Name -> ${newFileName}"
-            mv $file $newFileName
+            write "${file}.Name is PrefixNum and is not changedatealwaysnew ..."
         }
+    }
+    else 
+    {
+        $newFileName = $date6 + " " + $file.Name
+        write "${file}.Name -> ${newFileName}"
+        mv $file $newFileName
     }
 }
 
 
 
-function hhdfilewritefortest()
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdfilewritefortest
 {
     [CmdletBinding()]
     param
@@ -734,13 +806,57 @@ function hhdfilewritefortest()
         [System.IO.FileInfo]
         $file
     )
-    begin
-    {
-        Read-Host | Out-File $file
-    }
-    process
-    {
-    }
+        
+    Read-Host | Out-File $file
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdnetworkgetipmacaddress
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    Get-WmiObject win32_networkadapterconfiguration | 
+        select description, macaddress, ipaddress | 
+        ? { $_.macaddress -ne $null} | 
+        fl
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdcdaddpath
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $name,
+
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $path
+    )
+
+    $g_hhdFavList | ? {$_.name -eq $name} | set rmList
+    $rmList | % { $g_hhdFavList.Remove($_) }
+    $newObj = New-Object psobject
+    $newObj | Add-Member -Name name -Value $name -MemberType NoteProperty
+    $newObj | Add-Member -Name path -Value $path -MemberType NoteProperty
+    $g_hhdFavList.Add($newObj)
+    $g_hhdFavList | ConvertTo-Json | Out-File -FilePath ~/hhdFavList.json
+    hhdcdrefresh
 }
 
 
@@ -748,34 +864,32 @@ function hhdfilewritefortest()
 
 
 
-Write-Host "setup function alias ..."
-
-Remove-Item alias:\cd
-Set-Alias cd hhddirchange
-Set-Alias bd hhddirbackward
-Set-Alias fd hhddirforward
-
-
+write "main start ..."
+write "OutputEncoding = UTF8 ..."
+$OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
+    
+write "Set-ExecutionPolicy Bypass ..."
+Set-ExecutionPolicy Bypass -Scope Process -Force
 
 
 
-
-Write-Host "process with visual studio powershell window or NOT ..."
+write "change prompt ..."
 
 if((gcm prompt).ScriptBlock -like "*PM>*")
 {
-    Write-Host "this is visual studio powershell window."
-    Write-Host "skip setup prompt ..."
+    write "this is visual studio powershell window !!!"
+    write "skip setup prompt ..."
 }
 else 
 {
-    Write-Host "import module posh-git ..."
+    write "this is normal environment !!!"
+    write "import module posh-git ..."
     hhdmoduleinstallimport -modulename posh-git
 
     function global:prompt 
     {
         $realLASTEXITCODE = $LASTEXITCODE
-        Write-Host($pwd.ProviderPath) -nonewline
+        Write-Host ($pwd.ProviderPath) -nonewline
         Write-VcsStatus
         $global:LASTEXITCODE = $realLASTEXITCODE
         return "> "
@@ -784,7 +898,7 @@ else
 
 
 
-Write-Host "cd c:\temp ..."
+write "cd c:\temp ..."
 
 if($pwd -like "*WINDOWS\System32*")
 {
@@ -793,21 +907,43 @@ if($pwd -like "*WINDOWS\System32*")
         mkdir \temp
     }
 
-    Write-Host "change directory to temp ..."
+    write "change directory to temp ..."
     cd \temp
 }
 
 
 
-Write-Host "update profile.ps1 ..."
+write "update profile.ps1 ..."
 
-if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
+if (Test-Path C:\hhdcommand\PsDev\PsScripts)
 {
-    Write-Host "copy profile.ps1 ..."
-    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0"
-    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\SysWOW64\WindowsPowerShell\v1.0"
+    write "update profile.ps1 ..."
+    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0" -Verbose
+    cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\SysWOW64\WindowsPowerShell\v1.0" -Verbose
+    write "open profile.ps1 ..."
+    pi C:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 else
 {
-    Write-Host "skip profile.ps1 ..."
+    write "skip update profile.ps1 ..."
+}
+
+
+
+
+
+write "load hhdfavList.json ..."
+cat ~/hhdfavList.json | ConvertFrom-Json | set temp 
+    
+$temp | % { 
+    $newObj = New-Object psobject
+    $newObj | Add-Member -MemberType NoteProperty -Name name -Value $_.name
+    $newObj | Add-Member -MemberType NoteProperty -Name path -Value $_.path
+    $g_hhdFavList.Add($newObj) 
+}
+
+$g_hhdFavList | % { 
+    $exp = "function hhdcd{0} {{ cd {1} }}" -f $_.name, $_.path
+    write ("exp : {0}" -f $exp)
+    Invoke-Expression $exp
 }
