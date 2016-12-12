@@ -71,8 +71,10 @@ sal guidgen 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\g
 sal spyxx 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\spyxx.exe'
 sal dotfuscated-HelloWorld 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\samples\HelloWorld\dotfuscated\HelloWorld.exe'
 sal HelloWorld 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\samples\HelloWorld\HelloWorld.exe'
-sal dotfuscator 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscator.exe'
-sal dotfuscatorCLI 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscatorCLI.exe'
+sal dotfuscator-Community-Edition 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscator.exe'
+sal dotfuscatorCLI-Community-Edition 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\PreEmptive Solutions\Dotfuscator and Analytics Community Edition\dotfuscatorCLI.exe'
+sal dotfuscator "C:\Program Files (x86)\PreEmptive Solutions\Dotfuscator Professional Edition Evaluation 4.21.0\dotfuscator.exe"
+sal dotfuscatorUI "C:\Program Files (x86)\PreEmptive Solutions\Dotfuscator Professional Edition Evaluation 4.21.0\dotfuscatorUI.exe"
 sal VSPerf-Data-Collector 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerf.exe'
 sal VSPerf-ASP-NET-Command 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerfASPNetCmd.exe'
 sal VSPerf-ASP-NET-Command 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Performance Tools\VSPerfCmd.exe'
@@ -99,6 +101,7 @@ $oldPath = Get-Content Env:\Path
 Set-Item Env:\Path "
     $oldPath;
     C:\hhdcommand\PortableGit\bin;
+    C:\Program Files\nodejs\;
 "
 
 cat Env:\Path
@@ -841,8 +844,75 @@ function hhdcdaddpath
     $newObj | Add-Member -Name path -Value $path -MemberType NoteProperty
     $g_hhdFavList.Add($newObj)
     $g_hhdFavList | ConvertTo-Json | Out-File -FilePath ~/hhdFavList.json
-    hhdcdrefresh
 }
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdpiprofileps1
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    pi C:\hhdcommand\PsDev\PsScripts\profile.ps1
+}
+
+
+
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdcodeprofileps1
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+    
+    code ""C:\hhdcommand\PsDev\PsScripts\profile.ps1""
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdgitposhinit
+{
+    write "change prompt ..."
+
+    if((gcm prompt).ScriptBlock -like "*PM>*")
+    {
+        write "this is visual studio powershell window !!!"
+        write "skip setup prompt ..."
+    }
+    else 
+    {
+        write "this is normal environment !!!"
+        write "import module posh-git ..."
+        hhdmoduleinstallimport -modulename posh-git
+
+        function global:prompt 
+        {
+            $realLASTEXITCODE = $LASTEXITCODE
+            Write-Host ($pwd.ProviderPath) -nonewline
+            Write-VcsStatus
+            $global:LASTEXITCODE = $realLASTEXITCODE
+            return "> "
+        }
+    }
+}
+
 
 
 
@@ -858,31 +928,6 @@ $OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
     
 write "Set-ExecutionPolicy Bypass ..."
 Set-ExecutionPolicy Bypass -Scope Process -Force
-
-
-
-write "change prompt ..."
-
-if((gcm prompt).ScriptBlock -like "*PM>*")
-{
-    write "this is visual studio powershell window !!!"
-    write "skip setup prompt ..."
-}
-else 
-{
-    write "this is normal environment !!!"
-    write "import module posh-git ..."
-    hhdmoduleinstallimport -modulename posh-git
-
-    function global:prompt 
-    {
-        $realLASTEXITCODE = $LASTEXITCODE
-        Write-Host ($pwd.ProviderPath) -nonewline
-        Write-VcsStatus
-        $global:LASTEXITCODE = $realLASTEXITCODE
-        return "> "
-    }
-}
 
 
 
@@ -909,7 +954,6 @@ if (Test-Path C:\hhdcommand\PsDev\PsScripts)
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0" -Verbose
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\SysWOW64\WindowsPowerShell\v1.0" -Verbose
     write "open profile.ps1 ..."
-    pi C:\hhdcommand\PsDev\PsScripts\profile.ps1
 }
 else
 {
