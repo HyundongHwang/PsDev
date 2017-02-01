@@ -193,6 +193,20 @@ function hhdkillokdpcoconut
 
 
 
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhddangolplusclearlogfolder
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    rm -Recurse -Force "c:\DangolPlus\log\*"
+}
+
 
 
 
