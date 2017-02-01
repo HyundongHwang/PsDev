@@ -1,4 +1,5 @@
-﻿sal sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
+﻿sal code "C:\Program Files (x86)\Microsoft VS Code\Code.exe"
+sal sublime "c:\hhdcommand\Sublime Text 2.0.2\sublime_text.exe"
 sal open "C:\Windows\SysWOW64\explorer.exe"
 sal vs2013 "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.com"
 sal vs2015 "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.com"
@@ -1009,6 +1010,99 @@ function hhdgitaddcommitpush
     Read-Host "git push ..."
     git push
 }
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdgitresetclean
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    git reset --hard HEAD
+    git clean -fd
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdkillwithchild
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $processName
+    )
+
+    $processList = ps "*$processName*"
+    $processList
+
+    Read-Host "kill process list ???"
+    $processList | % { taskkill /PID $_.id /T /F }
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdkillvsgarbage
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    hhdkillwithchild -processName vshub
+    hhdkillwithchild -processName msbuild
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdonedriveupload
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $filePath
+    )
+
+    $authRes = Get-ODAuthentication -ClientID "00000000401C7029"
+    $uploadRes = Add-ODItem -AccessToken $authRes.access_token -Path "/temp" -LocalFile $filePath
+    $uploadResObj = $uploadRes | ConvertFrom-Json
+
+    $createLinkRes = Invoke-WebRequest ("https://api.onedrive.com/v1.0/drive/items/{0}/action.createLink" -f $uploadResObj.id) -Headers @{"Authorization"="bearer " + $authRes.access_token; "Content-Type"="application/json" } -Body '{ "type": "view" }' -Method Post
+    $createLinkResObj = $createLinkRes | ConvertFrom-Json
+
+    return $createLinkResObj.link.webUrl
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
