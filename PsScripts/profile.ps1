@@ -1084,6 +1084,8 @@ function hhdonedriveupload
         $filePath
     )
 
+    hhdmoduleinstallimport -modulename OneDrive
+
     $authRes = Get-ODAuthentication -ClientID "00000000401C7029"
     $uploadRes = Add-ODItem -AccessToken $authRes.access_token -Path "/temp" -LocalFile $filePath
     $uploadResObj = $uploadRes | ConvertFrom-Json
