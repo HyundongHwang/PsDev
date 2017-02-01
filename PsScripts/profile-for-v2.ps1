@@ -98,6 +98,12 @@ sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools
 
 
 
+sal ok "c:\_OKPOS\BIN\OKPos.exe"
+sal dp "c:\DangolPlus\Update.exe"
+
+
+
+
 
 
 <#
@@ -164,6 +170,25 @@ function hhdonedriveupload
     $createLinkResObj = $createLinkRes | ConvertFrom-Json
 
     return $createLinkResObj.link.webUrl
+}
+
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdkillokdpcoconut
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    hhdkillwithchild -processName ok
+    hhdkillwithchild -processName dp
+    hhdkillwithchild -processName coconut
 }
 
 
