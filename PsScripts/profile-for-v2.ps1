@@ -98,8 +98,8 @@ sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools
 
 
 
-sal ok "c:\_OKPOS\BIN\OKPos.exe"
-sal dp "c:\DangolPlus\Update.exe"
+sal okpos "c:\_OKPOS\BIN\OKPos.exe"
+sal dangolplus "c:\DangolPlus\Update.exe"
 
 
 
