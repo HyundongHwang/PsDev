@@ -13,12 +13,12 @@ sal jar "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\jar.exe"
 sal javadoc "C:\Program Files (x86)\Java\jdk1.7.0_55\bin\javadoc.exe"
 sal pi "C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell_ise.exe"
 
+
+
 sal zip Compress-Archive
 sal unzip Expand-Archive
-rd alias:\cd  -Verbose
-sal cd hhddirchange -Verbose
-sal bd hhddirbackward  -Verbose
-sal fd hhddirforward  -Verbose
+
+
 
 sal amcap "C:\hhdcommand\AMCap\amcap.exe"
 sal StillCap "C:\hhdcommand\AMCap\StillCap.exe"
@@ -95,132 +95,16 @@ sal vcredist_x64-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Progra
 sal vcredist_x86-Microsoft-Visual-Cpp-2015-Redistributable-14.0.24215 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x86.exe'
 sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\spyxx.chm'
 
-write "configure path ..."
 
-$oldPath = Get-Content Env:\Path
 
-Set-Item Env:\Path "
-    $oldPath;
-    C:\hhdcommand\PortableGit\bin;
-    C:\Program Files\nodejs\;
-"
-
-cat Env:\Path
+sal hhdopen hhdvs2015openfile
+sal hhdupload hhdazurestorageuploadfile
+sal hhdopenprofileps1 hhdvs2015profileps1
 
 
 
 
 
-
-$g_hhdDirBackwardStack = New-Object -TypeName System.Collections.Stack
-$g_hhdDirForwardStack = New-Object -TypeName System.Collections.Stack
-$g_hhdFavList = New-Object System.Collections.Generic.List[psobject]
-
-
-
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhddirchange
-{
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
-        [System.IO.DirectoryInfo]
-        $dir
-    )
-
-    if((Test-Path $dir) -eq $false)
-    {
-        write "${dir} is not directory !!!"
-        return
-    }
-
-    $g_hhdDirBackwardStack.Push((Resolve-Path $dir).Path)
-    Set-Location $dir
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhddirbackward
-{
-    [CmdletBinding()]
-    param
-    (
-    )
-
-    if ($g_hhdDirBackwardStack.Count -eq 0) 
-    {
-        write "g_hhdDirBackwardStack is empty !!!"
-        return
-    }
-
-    while($true)
-    {
-        $dir = $g_hhdDirBackwardStack.Pop()
-        $g_hhdDirForwardStack.Push($dir)
-
-        if ($dir -ne (pwd).Path) 
-        {
-            break
-        }
-
-        if ($g_hhdDirBackwardStack.Count -eq 0) 
-        {
-            write "g_hhdDirBackwardStack is empty !!!"
-            return
-        }
-    }
-    
-    Set-Location $dir
-}
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
-function hhddirforward
-{
-    [CmdletBinding()]
-    param
-    (
-    )
-
-    if ($g_hhdDirForwardStack.Count -eq 0) 
-    {
-        write "g_hhdDirForwardStack is empty !!!"
-        return
-    }
-
-    while($true)
-    {
-        $g_hhdDirBackwardStack.Push($dir)
-
-        if ($dir -ne (pwd).Path) 
-        {
-            break
-        }
-
-        if ($g_hhdDirForwardStack.Count -eq 0) 
-        {
-            write "g_hhdDirForwardStack is empty !!!"
-            return
-        }
-    }
-    
-    Set-Location $dir
-}
 
 
 
@@ -241,7 +125,7 @@ function hhdmoduleinstallimport
     if((Get-InstalledModule -name $modulename).count -eq 0)
     {
         write "install ${modulename} ..."
-        Install-Package $modulename -Force -Verbose
+        Install-Package $modulename -Force
     }
     else 
     {
@@ -249,7 +133,7 @@ function hhdmoduleinstallimport
     }
 
     write "import ${modulename} ..."
-    Import-Module $modulename -Force -Verbose
+    Import-Module $modulename -Force
 }
 
 
@@ -853,25 +737,6 @@ function hhdcdaddpath
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdpiprofileps1
-{
-    [CmdletBinding()]
-    param
-    (
-    )
-
-    pi C:\hhdcommand\PsDev\PsScripts\profile.ps1
-}
-
-
-
-
-
-
-<#
-.SYNOPSIS
-.EXAMPLE
-#>
 function hhdcodeprofileps1
 {
     [CmdletBinding()]
@@ -1040,15 +905,11 @@ function hhdkillwithchild
     param
     (
         [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
-        [System.String]
-        $processName
+        [System.String[]]
+        $processNameList
     )
 
-    $processList = ps "*$processName*"
-    $processList
-
-    Read-Host "kill process list ???"
-    $processList | % { taskkill /PID $_.id /T /F }
+    $processNameList | % { ps "*$_*" } | % { taskkill /PID $_.id /T /F }
 }
 
 
@@ -1087,16 +948,127 @@ function hhdonedriveupload
     hhdmoduleinstallimport -modulename OneDrive
 
     $authRes = Get-ODAuthentication -ClientID "00000000401C7029"
-    $uploadRes = Add-ODItem -AccessToken $authRes.access_token -Path "/temp" -LocalFile $filePath
+    $uploadRes = Add-ODItem -AccessToken $authRes.access_token -Path "/publish" -LocalFile $filePath
     $uploadResObj = $uploadRes | ConvertFrom-Json
 
     $createLinkRes = Invoke-WebRequest ("https://api.onedrive.com/v1.0/drive/items/{0}/action.createLink" -f $uploadResObj.id) -Headers @{"Authorization"="bearer " + $authRes.access_token; "Content-Type"="application/json" } -Body '{ "type": "view" }' -Method Post
     $createLinkResObj = $createLinkRes | ConvertFrom-Json
 
+    $createLinkResObj.link.webUrl | clip
     return $createLinkResObj.link.webUrl
 }
 
 
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdimagegetwin10spotlightlockscreen
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $dirName = "tmp"
+    )
+
+    $fileList = ls ~\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets\* | ? { $_.Length -gt 100000 }
+    write $fileList
+    md $dirName
+    $fileList | % { cp $_.FullName "$dirName\$($_.Name).png" }
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdvs2015openfile
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [System.String]
+        $FILE_NAME
+    )
+
+    ls $FILE_NAME -File | select FullName
+    ls $FILE_NAME | % { vs2015 /Edit $_.FullName }
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdvs2015profileps1
+{
+    [CmdletBinding()]
+    param
+    (
+    )
+
+    hhdvs2015openfile C:\hhdcommand\PsDev\PsScripts\profile.ps1
+}
+
+
+
+<#
+.SYNOPSIS
+.EXAMPLE
+#>
+function hhdazurestorageuploadfile
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
+        [string]
+        $FILE_NAME,
+
+        [parameter(Mandatory = $false)]
+        [ValidateSet("None", "Prefix", "Postfix")]
+        [string]
+        $ADD_TIMESTAMP_STR = "None"
+    )
+
+    $AZURE_STORAGE_CONNECTION_STR = "DefaultEndpointsProtocol=https;AccountName=hhdpublish;AccountKey=3y07DG/iIvULhXaX0hzV8LU+6JWXP1EbeEzRfAP8hOhfXrRlnI+IEbbOfCwwF+UMIJxbqwGPtFcxKNXDzuwezw==;EndpointSuffix=core.windows.net"
+
+    $storageCtx = New-AzureStorageContext -ConnectionString $AZURE_STORAGE_CONNECTION_STR
+    # New-AzureStorageContainer -Context $storageCtx -Name "publish" -Permission Container
+
+    ls $FILE_NAME -File -Force | 
+    % {
+        $blobName = ""
+
+        if($ADD_TIMESTAMP_STR -eq "Prefix")
+        {
+            $dtStr = $_.LastWriteTime.ToString("yyMMdd-HHmm")
+            $blobName = "$dtStr $($_.Name)"
+        }
+        elseif($ADD_TIMESTAMP_STR -eq "Postfix")
+        {
+            $dtStr = $_.LastWriteTime.ToString("yyMMdd-HHmm")
+            $fileName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name)
+            $blobName = "$fileName $dtStr$($_.Extension)"
+        }
+        else 
+        {
+            $blobName = $_.Name
+        }
+
+        $blob = Set-AzureStorageBlobContent -Context $storageCtx -Container "publish" -File $_.FullName -Blob $blobName -Force
+        $obj = New-Object -typename PSObject
+        $obj | Add-Member -MemberType NoteProperty -Name LocalFilePath -Value $_.FullName
+        $obj | Add-Member -MemberType NoteProperty -Name DownloadUrl -Value $blob.ICloudBlob.Uri.AbsoluteUri
+        write $obj
+    }
+}
 
 
 
@@ -1116,31 +1088,38 @@ function hhdonedriveupload
 
 write "main start ..."
 write "OutputEncoding = UTF8 ..."
-$OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding
+$OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding -Verbose
     
 write "Set-ExecutionPolicy Bypass ..."
-Set-ExecutionPolicy Bypass -Scope Process -Force
+Set-ExecutionPolicy Bypass -Scope Process -Force -Verbose
 
 
 
-write "cd c:\temp ..."
+write "configure path ..."
 
-if($pwd -like "*WINDOWS\System32*")
+$oldPath = Get-Content Env:\Path
+
+Set-Item Env:\Path "
+    $oldPath;
+    C:\hhdcommand\PortableGit\bin;
+    C:\Program Files\nodejs\;
+" -Verbose
+
+cat Env:\Path
+
+
+
+if(!(Test-Path /temp))
 {
-    if(!(Test-Path \temp))
-    {
-        mkdir \temp
-    }
-
-    write "change directory to temp ..."
-    cd \temp
+    md /temp -Verbose
 }
 
+cd /temp -Verbose
 
 
 write "update profile.ps1 ..."
 
-if (Test-Path C:\hhdcommand\PsDev\PsScripts)
+if (Test-Path C:\hhdcommand\PsDev\PsScripts\profile.ps1)
 {
     write "update profile.ps1 ..."
     cp -Force C:\hhdcommand\PsDev\PsScripts\profile.ps1 "C:\Windows\System32\WindowsPowerShell\v1.0" -Verbose
@@ -1157,6 +1136,10 @@ else
 write "load hhdfavList.json ..."
 
 cat ~/hhdfavList.json | ConvertFrom-Json | set temp 
+
+$g_hhdDirBackwardStack = New-Object -TypeName System.Collections.Stack
+$g_hhdDirForwardStack = New-Object -TypeName System.Collections.Stack
+$g_hhdFavList = New-Object System.Collections.Generic.List[psobject]
     
 $temp | % { 
     $newObj = New-Object psobject
