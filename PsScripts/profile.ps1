@@ -97,6 +97,14 @@ sal spyxx-chm 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools
 
 
 
+
+sal ok "C:\project\161010_CoconutClient\bin\CoconutBridge\Debug\OkposMock.exe"
+sal okd "C:\project\161010_CoconutClient\bin\CoconutBridge\Debug\OkdaemonMock.exe"
+sal dp "C:\project\161010_CoconutClient\bin\CoconutBridge\Debug\DangolMock.exe"
+
+
+
+
 sal hhdopen hhdvs2015openfile
 sal hhdupload hhdazurestorageuploadfile
 sal hhdopenprofileps1 hhdvs2015profileps1
@@ -119,21 +127,21 @@ function hhdmoduleinstallimport
     (
         [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelinebyPropertyName=$true)]
         [System.String]
-        $modulename
+        $MODULE_NAME
     )
 
-    if((Get-InstalledModule -name $modulename).count -eq 0)
+    if((Get-InstalledModule -name $MODULE_NAME).count -eq 0)
     {
-        write "install ${modulename} ..."
-        Install-Package $modulename -Force
+        write "install $MODULE_NAME ..."
+        Install-Package $MODULE_NAME -Force -AllowClobber
     }
     else 
     {
-        write "${modulename} already installed !!!"
+        write "$MODULE_NAME already installed !!!"
     }
 
-    write "import ${modulename} ..."
-    Import-Module $modulename -Force
+    write "import $MODULE_NAME ..."
+    Import-Module $MODULE_NAME -Force
 }
 
 
@@ -603,7 +611,7 @@ function hhdgcmgetscriptcontent
 .SYNOPSIS
 .EXAMPLE
 #>
-function hhdfileappenddate
+function hhdfileappendtime
 {
     [CmdletBinding()]
     param
@@ -624,7 +632,7 @@ function hhdfileappenddate
     }
 
     $isProcessed = $false
-    $date6 = $file.CreationTime.ToString("yyMMdd")
+    $date6 = $file.LastWriteTime.ToString("yyMMdd")
     $isPrefixNum = $false
 
     if($file.Name.Length -gt 6)
@@ -766,7 +774,7 @@ function hhdgitposhinit
     {
         write "this is normal environment !!!"
         write "import module posh-git ..."
-        hhdmoduleinstallimport -modulename posh-git
+        hhdmoduleinstallimport -MODULE_NAME posh-git
 
         function global:prompt 
         {
@@ -945,7 +953,7 @@ function hhdonedriveupload
         $filePath
     )
 
-    hhdmoduleinstallimport -modulename OneDrive
+    hhdmoduleinstallimport -MODULE_NAME OneDrive
 
     $authRes = Get-ODAuthentication -ClientID "00000000401C7029"
     $uploadRes = Add-ODItem -AccessToken $authRes.access_token -Path "/publish" -LocalFile $filePath
@@ -1067,7 +1075,7 @@ function hhdazurestorageuploadfile
         $obj | Add-Member -MemberType NoteProperty -Name LocalFilePath -Value $_.FullName
         $obj | Add-Member -MemberType NoteProperty -Name DownloadUrl -Value $blob.ICloudBlob.Uri.AbsoluteUri
         write $obj
-    }
+    } | fl
 }
 
 
